@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.1.6",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "6.0.2",
@@ -30,7 +31,9 @@
     "expo-sharing": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "~0.10.15",
+    "graphql": "^14.0.0",
     "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
