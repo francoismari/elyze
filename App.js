@@ -13,7 +13,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Image,
   Alert,
@@ -21,30 +20,24 @@ import {
   Switch,
 } from "react-native";
 import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 
 import {
   FontAwesome5,
-  Feather,
   Octicons,
-  Foundation,
 } from "@expo/vector-icons";
 import colors from "./assets/colors/colors";
 import * as Haptics from "expo-haptics";
-import * as Device from "expo-device";
 
 import Onboarding from "react-native-onboarding-swiper";
 
 import Home from "./src/screens/Home";
-import More from "./src/screens/More";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { enableScreens } from "react-native-screens";
 
-import Article from "./src/screens/Article";
 import Propositions from "./src/screens/Propositions";
 import ListPropositions from "./src/screens/ListPropositions";
 import CandidateProfile from "./src/screens/CandidateProfile";
@@ -52,16 +45,12 @@ import Results from "./src/screens/Results";
 import PropositionDetails from "./src/screens/PropositionDetails";
 import Settings from "./src/screens/Settings";
 import AllThemesList from "./src/screens/AllThemesList";
-import FavoritePropositions from "./src/screens/FavoritePropositions";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ThemeByCandidate from "./src/screens/ThemeByCandidate";
 import CandidatesResults from "./src/screens/CandidatesResults";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import UserInfo from "./src/screens/UserInfo";
-import EditUserInfo from "./src/screens/EditUserInfo";
 
 import * as Linking from "expo-linking";
-import Levels from "./src/screens/Levels";
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -209,11 +198,6 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name={"Article"}
-              component={Article}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
               name={"ListPropositions"}
               component={ListPropositions}
               options={{ headerShown: false }}
@@ -226,11 +210,6 @@ export default function App() {
             <Stack.Screen
               name={"AllThemesList"}
               component={AllThemesList}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name={"FavoritePropositions"}
-              component={FavoritePropositions}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -256,20 +235,6 @@ export default function App() {
               <Stack.Screen
                 name={"CandidateResults"}
                 component={CandidatesResults}
-                options={{ headerShown: false }}
-              />
-            </Stack.Group>
-            <Stack.Group screenOptions={{ presentation: "modal" }}>
-              <Stack.Screen
-                name={"UserInfo"}
-                component={UserInfo}
-                options={{ headerShown: false }}
-              />
-            </Stack.Group>
-            <Stack.Group screenOptions={{ presentation: "modal" }}>
-              <Stack.Screen
-                name={"EditUserInfo"}
-                component={EditUserInfo}
                 options={{ headerShown: false }}
               />
             </Stack.Group>
