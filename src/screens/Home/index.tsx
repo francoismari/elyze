@@ -47,25 +47,27 @@ export default function Levels() {
   const [isEnded, setIsEnded] = useState(false);
 
   // Si l'utilisateur a renseigné ses données dans une version précédente, alors elles sont supprimées au démarrage de la nouvelle version
-  useEffect(async () => {
-    await AsyncStorage.getItem("@idUser").then(async (res) => {
-      const resetUserInfoRequest =
-        `mutation resetUserInfo {
+  useEffect(() => {
+    (async () => {
+      await AsyncStorage.getItem("@idUser").then(async (res) => {
+        const resetUserInfoRequest =
+          `mutation resetUserInfo {
         updateUserInfo(input: {id: "` +
-        res +
-        `", monthBirth: 0, postalCode: "null", willVoteFor: "null", haveVotedFor: "null", haveVoted: 0, genre: 0, dayBirth: 0, yearBirth: 0}) {id}
+          res +
+          `", monthBirth: 0, postalCode: "null", willVoteFor: "null", haveVotedFor: "null", haveVoted: 0, genre: 0, dayBirth: 0, yearBirth: 0}) {id}
       }`;
-      console.log("Données réinitialisées");
+        console.log("Données réinitialisées");
 
-      try {
-        await API.graphql(graphqlOperation(resetUserInfoRequest));
-      } catch (e) {
-        console.log(
-          "Impossible de réinitialiser les données de l'utilisateur : ",
-          e
-        );
-      }
-    });
+        try {
+          await API.graphql(graphqlOperation(resetUserInfoRequest));
+        } catch (e) {
+          console.log(
+            "Impossible de réinitialiser les données de l'utilisateur : ",
+            e
+          );
+        }
+      });
+    })();
   }, []);
 
   // Fonction pour rendre la position des propositions aléatoire
@@ -117,16 +119,17 @@ export default function Levels() {
     }
   };
 
-  useEffect(async () => {
-    NetInfo.fetch().then(async (state) => {
-      if (state.isConnected == true) {
-        setIsConnectedToInternet(true);
+  useEffect(() => {
+    (async () => {
+      NetInfo.fetch().then(async (state) => {
+        if (state.isConnected == true) {
+          setIsConnectedToInternet(true);
 
-        console.log("connecté");
+          console.log("connecté");
 
-        const getFirstPropositions = async () => {
-          try {
-            const getFirstPropsQuery = `query getFirstProps {
+          const getFirstPropositions = async () => {
+            try {
+              const getFirstPropsQuery = `query getFirstProps {
               listPropositions(limit: 1000, filter: {firstPropositions: {eq: 1}, toShowOnSwipe: {eq: 1}}) {
                 items {
                   articleContent
@@ -143,98 +146,103 @@ export default function Levels() {
               }
             }`;
 
-            const getFirstPropositions = await API.graphql(
-              graphqlOperation(getFirstPropsQuery)
-            );
+              const getFirstPropositions = await API.graphql(
+                graphqlOperation(getFirstPropsQuery)
+              );
 
-            return getFirstPropositions;
-          } catch (e) {
-            console.log(
-              "Erreur lors de la récupération des propositions : ",
-              e
-            );
-            return null;
-          }
-        };
+              return getFirstPropositions;
+            } catch (e) {
+              console.log(
+                "Erreur lors de la récupération des propositions : ",
+                e
+              );
+              return null;
+            }
+          };
 
-        const firstPropositions = await getFirstPropositions();
-        setFirstPropositionsToShow(
-          firstPropositions.data.listPropositions.items
-        );
-
-        const allPropositions = await getPropositions();
-        // console.log(allPropositions);
-        setPropositions(allPropositions.data.listPropositions.items);
-      } else {
-        console.log("Aucune connexion internet");
-      }
-    });
-  }, []);
-
-  useEffect(async () => {
-    if (propositions.length > 0) {
-      // Filtrer les propositions qui ont déjà été passées
-
-      try {
-        var passedPropsIDRequest = await AsyncStorage.getItem(
-          "@passed_propositions"
-        ); // pour que ce soit égal à "null" pour l'instant
-        passedPropsIDRequest = JSON.parse(passedPropsIDRequest);
-
-        if (passedPropsIDRequest == "null" || passedPropsIDRequest == null) {
-          // Si il n'y aucune propositions passées
-
-          // console.log(firstPropositionsToShow);
-
-          var newPropsList = shuffle(propositions);
-          newPropsList.push.apply(newPropsList, firstPropositionsToShow);
-          newPropsList.reverse();
-
-          setFinalPropositionsToShow(newPropsList);
-          setLoaded(true);
-        } else {
-          console.log(
-            "Nb de propositions passées: ",
-            passedPropsIDRequest.length
+          const firstPropositions = await getFirstPropositions();
+          setFirstPropositionsToShow(
+            firstPropositions.data.listPropositions.items
           );
 
-          // Si beaucoup de propositions passées -> Afficher l'écran de fin
-          if (passedPropsIDRequest.length >= 400) {
-            setIsEnded(true);
-            setLoaded(true);
-          } else {
-            // On enlève les propositions qui sont déjà passées
-            const newPropositionsToShow = propositions.filter(
-              ({ id }) => !passedPropsIDRequest.includes(id)
-            );
+          const allPropositions = await getPropositions();
+          // console.log(allPropositions);
+          setPropositions(allPropositions.data.listPropositions.items);
+        } else {
+          console.log("Aucune connexion internet");
+        }
+      });
+    })();
+  }, []);
 
-            var newPropsList = shuffle(newPropositionsToShow);
+  useEffect(() => {
+    (async () => {
+      if (propositions.length > 0) {
+        // Filtrer les propositions qui ont déjà été passées
 
-            // console.log(newPropsList);
+        try {
+          var passedPropsIDRequest = await AsyncStorage.getItem(
+            "@passed_propositions"
+          ); // pour que ce soit égal à "null" pour l'instant
+          passedPropsIDRequest = JSON.parse(passedPropsIDRequest);
+
+          if (passedPropsIDRequest == "null" || passedPropsIDRequest == null) {
+            // Si il n'y aucune propositions passées
+
+            // console.log(firstPropositionsToShow);
+
+            var newPropsList = shuffle(propositions);
+            newPropsList.push.apply(newPropsList, firstPropositionsToShow);
+            newPropsList.reverse();
 
             setFinalPropositionsToShow(newPropsList);
             setLoaded(true);
+          } else {
+            console.log(
+              "Nb de propositions passées: ",
+              passedPropsIDRequest.length
+            );
+
+            // Si beaucoup de propositions passées -> Afficher l'écran de fin
+            if (passedPropsIDRequest.length >= 400) {
+              setIsEnded(true);
+              setLoaded(true);
+            } else {
+              // On enlève les propositions qui sont déjà passées
+              const newPropositionsToShow = propositions.filter(
+                ({ id }) => !passedPropsIDRequest.includes(id)
+              );
+
+              var newPropsList = shuffle(newPropositionsToShow);
+
+              // console.log(newPropsList);
+
+              setFinalPropositionsToShow(newPropsList);
+              setLoaded(true);
+            }
           }
+        } catch (e) {
+          console.log("Erreur: ", e);
         }
-      } catch (e) {
-        console.log("Erreur: ", e);
       }
-    }
+    })();
   }, [propositions]);
 
-  useEffect(async () => {
-    try {
-      await AsyncStorage.getItem("@passed_propositions").then((response) => {
-        const arrayPassedPropositionNumber = JSON.parse(response);
-        if (arrayPassedPropositionNumber !== null) {
-          setNumberOfPropsSwiped(arrayPassedPropositionNumber.length);
-        } else {
-          setNumberOfPropsSwiped(0);
-        }
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  useEffect(() => {
+    (async () => {
+      try {
+        await AsyncStorage.getItem("@passed_propositions").then((response) => {
+          const arrayPassedPropositionNumber = JSON.parse(response);
+          if (arrayPassedPropositionNumber !== null) {
+            setNumberOfPropsSwiped(arrayPassedPropositionNumber.length);
+          } else {
+            setNumberOfPropsSwiped(0);
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    })();
   }, [index]);
 
   const storePassedPropositions = async (idNewPassedProposition) => {
@@ -628,7 +636,6 @@ export default function Levels() {
                       },
                       shadowOpacity: 0.25,
                       shadowRadius: 3.84,
-
                       elevation: 5,
                       justifyContent: "space-between",
                       zIndex: 100,
