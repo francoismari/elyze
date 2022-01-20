@@ -11,6 +11,7 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import findThemeTitle from "../../../assets/queries/findThemeTitle";
+import misc from "../../utils/misc";
 
 export default function SwipeCard(props) {
 
@@ -62,198 +63,43 @@ export default function SwipeCard(props) {
               <FontAwesome5
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
-                color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
-                }
+                color={misc.getIconColor(idTheme)}
               />
             ) : iconType == "FontAwesome" ? (
               <FontAwesome
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
-                color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
-                }
+                color={misc.getIconColor(idTheme)}
               />
             ) : iconType == "AntDesign" ? (
               <AntDesign
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
-                color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
-                }
+                color={misc.getIconColor(idTheme)}
               />
             ) : iconType == "Entypo" ? (
               <Entypo
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
-                color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
-                }
+                color={misc.getIconColor(idTheme)}
               />
             ) : iconType == "MaterialCommunityIcons" ? (
               <MaterialCommunityIcons
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
-                color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
-                }
+                color={misc.getIconColor(idTheme)}
               />
             ) : iconType == "MaterialIcons" ? (
               <MaterialIcons
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
-                color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
-                }
+                color={misc.getIconColor(idTheme)}
               />
             ) : null}
             <View
               style={[
                 styles.themeInfoContainer,
-                {
-                  backgroundColor:
-                  idTheme == 1
-                      ? "white"
-                      : idTheme == 2
-                      ? "white"
-                      : idTheme == 3
-                      ? "white"
-                      : idTheme == 4
-                      ? "white"
-                      : idTheme == 5
-                      ? "#FAFC91"
-                      : idTheme == 6
-                      ? "white"
-                      : idTheme == 7
-                      ? "white"
-                      : idTheme == 8
-                      ? "white"
-                      : idTheme == 9
-                      ? "white"
-                      : idTheme == 10
-                      ? "white"
-                      : null,
-                },
+                { backgroundColor: misc.getIconColor(idTheme) },
               ]}
             >
               <Text
@@ -280,30 +126,7 @@ export default function SwipeCard(props) {
             <Text
               style={[
                 styles.questionText,
-                {
-                  color:
-                  idTheme == 1
-                      ? "white"
-                      : idTheme == 2
-                      ? "white"
-                      : idTheme == 3
-                      ? "white"
-                      : idTheme == 4
-                      ? "white"
-                      : idTheme == 5
-                      ? "#FAFC91"
-                      : idTheme == 6
-                      ? "white"
-                      : idTheme == 7
-                      ? "white"
-                      : idTheme == 8
-                      ? "white"
-                      : idTheme == 9
-                      ? "white"
-                      : idTheme == 10
-                      ? "white"
-                      : null,
-                },
+                { color: misc.getIconColor(idTheme) },
               ]}
             >
               {title}
