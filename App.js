@@ -74,7 +74,7 @@ const TabNavigator = () => (
         },
       })}
       options={{
-        tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({ color }) => (
           <FontAwesome5 name={"vote-yea"} color={color} size={35} />
         ),
       }}
@@ -176,7 +176,7 @@ export default function App() {
     }
 
     if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
+      await Notifications.setNotificationChannelAsync("default", {
         name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
@@ -261,7 +261,7 @@ export default function App() {
                   console.log(response);
                   await AsyncStorage.setItem(
                     "@idUser",
-                    response.data.createUserInfo.id
+                    1
                   ).then(() => {
                     setIsSetUp(true);
                     // Utilisateur inscrit
@@ -481,7 +481,6 @@ export default function App() {
                     marginHorizontal: 60,
                     flexDirection: "row",
                     marginTop: 10,
-                    alignItems: "center",
                     justifyContent: "center",
                   }}
                 >

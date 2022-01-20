@@ -26,7 +26,7 @@ export default function CandidateProfile({ route }) {
   const candidateRouteDetails = route.params;
 
   const [candidateDetails, setCandidateDetails] = useState([]);
-  const [IDCandidat, setIDCandidat] = useState(0);
+  const [IDCandidate, setIDCandidate] = useState(0);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [age, setAge] = useState();
@@ -42,7 +42,7 @@ export default function CandidateProfile({ route }) {
   useEffect(() => {
     /* Trouver les infos du candidat (filtre le tableau avec tous les candidats et ne retient que celui qui doit être affiché) */
     let candidateProfileDetails = candidatesList.filter(
-      (d) => d.id == candidateRouteDetails.id
+      (d) => d.id === candidateRouteDetails.id
     );
     setCandidateDetails(
       candidateDetails.splice(
@@ -51,7 +51,7 @@ export default function CandidateProfile({ route }) {
         ...candidateProfileDetails
       )
     );
-    setIDCandidat(candidateDetails[0].id);
+    setIDCandidate(candidateDetails[0].id);
     setFirstname(candidateDetails[0].firstname);
     setLastname(candidateDetails[0].lastname);
     setAge(candidateDetails[0].age);
@@ -134,7 +134,7 @@ export default function CandidateProfile({ route }) {
                       }}
                       onPress={() =>
                         navigation.navigate("ThemeByCandidate", {
-                          idCandidat: IDCandidat,
+                          idCandidat: IDCandidate,
                           idTheme: item.id,
                           candidateLastName: lastname,
                           candidateFirstName: firstname,

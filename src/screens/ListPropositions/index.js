@@ -1,25 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
-  SafeAreaView,
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  Dimensions,
 } from "react-native";
-import BackButton from "../../components/backButton";
 import styles from "./styles";
-import {
-  MaterialCommunityIcons,
-  FontAwesome,
-  FontAwesome5,
-  MaterialIcons,
-  Entypo,
-} from "@expo/vector-icons";
 import { API, graphqlOperation } from "aws-amplify";
 
-import propositionsListForOneList from "../../../assets/data/propositions/propositionsListToShow";
 import { useNavigation } from "@react-navigation/core";
 import PropositionListCard from "../../components/PropositionListCard";
 import findThemeTitle from "../../../assets/queries/findThemeTitle";
