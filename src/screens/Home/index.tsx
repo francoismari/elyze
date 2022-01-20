@@ -224,9 +224,6 @@ export default function Levels() {
 
       const dislikeCandidateVariable = "@scoreDislike_candidat_" + candidateId;
 
-      const postalCode = await AsyncStorage.getItem("@postalCode");
-      const idUser = await AsyncStorage.getItem("@idUser");
-
       var currentCandidateScore = await AsyncStorage.getItem(candidateVariable);
       var currentDislikeCandidateScore = await AsyncStorage.getItem(
         dislikeCandidateVariable
@@ -341,9 +338,6 @@ export default function Levels() {
       const dislikeCandidateVariable = "@scoreDislike_candidat_" + candidateId;
 
       const likeCandidateVariable = "@score_candidat_" + candidateId;
-
-      const postalCode = await AsyncStorage.getItem("@postalCode");
-      const idUser = await AsyncStorage.getItem("@idUser");
 
       var currentCandidateDislike = await AsyncStorage.getItem(
         dislikeCandidateVariable
