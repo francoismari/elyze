@@ -9,15 +9,13 @@ import {
 } from "react-native";
 import Swiper from "react-native-deck-swiper";
 
-import NetInfo from "@react-native-community/netinfo";
-
 import { Root, Popup } from "react-native-popup-confirm-toast";
 
 import { API, graphqlOperation } from "aws-amplify";
 
 import SwipeCard from "../../components/SwipeCard";
 
-import { FontAwesome, Feather, AntDesign } from "@expo/vector-icons";
+import { FontAwesome, Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles";
 import colors from "../../../assets/colors/colors";
@@ -25,6 +23,7 @@ import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import resetData from "../../../assets/queries/resetData";
+import { getPropositions, usePropositions } from "./usePropositions";
 
 const swipeRef = createRef();
 
@@ -33,12 +32,8 @@ export default function Levels() {
 
   const [index, setIndex] = useState(0);
 
-  const [propositions, setPropositions] = useState([]);
-  const [isConnectedToInternet, setIsConnectedToInternet] = useState(false);
   const [showNotConnectedText, setShowNotConnectedText] = useState(false);
   const [loaded, setLoaded] = useState(false);
-
-  const [firstPropositionsToShow, setFirstPropositionsToShow] = useState([]);
 
   const [finalPropositionsToShow, setFinalPropositionsToShow] = useState([]);
 
@@ -88,92 +83,12 @@ export default function Levels() {
     return array;
   }
 
-  const getPropositions = async () => {
-    try {
-      const getPropsToShow = `query getAllProps {
-        listPropositions(limit: 100000, filter: {firstPropositions: {eq: 0}, toShowOnSwipe: {eq: 1}}) {
-          items {
-            articleContent
-            createdAt
-            firstPropositions
-            id
-            idCandidat
-            idTheme
-            source
-            title
-            toBeShownFirst
-            toShowOnSwipe
-          }
-        }
-      }`;
-
-      const getAllPropositions = await API.graphql(
-        graphqlOperation(getPropsToShow)
-      );
-
-      // console.log(getPropsToShow);
-
-      return getAllPropositions;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    (async () => {
-      NetInfo.fetch().then(async (state) => {
-        if (state.isConnected == true) {
-          setIsConnectedToInternet(true);
-
-          console.log("connecté");
-
-          const getFirstPropositions = async () => {
-            try {
-              const getFirstPropsQuery = `query getFirstProps {
-              listPropositions(limit: 1000, filter: {firstPropositions: {eq: 1}, toShowOnSwipe: {eq: 1}}) {
-                items {
-                  articleContent
-                  createdAt
-                  firstPropositions
-                  id
-                  idCandidat
-                  idTheme
-                  source
-                  title
-                  toBeShownFirst
-                  toShowOnSwipe
-                }
-              }
-            }`;
-
-              const getFirstPropositions = await API.graphql(
-                graphqlOperation(getFirstPropsQuery)
-              );
-
-              return getFirstPropositions;
-            } catch (e) {
-              console.log(
-                "Erreur lors de la récupération des propositions : ",
-                e
-              );
-              return null;
-            }
-          };
-
-          const firstPropositions = await getFirstPropositions();
-          setFirstPropositionsToShow(
-            firstPropositions.data.listPropositions.items
-          );
-
-          const allPropositions = await getPropositions();
-          // console.log(allPropositions);
-          setPropositions(allPropositions.data.listPropositions.items);
-        } else {
-          console.log("Aucune connexion internet");
-        }
-      });
-    })();
-  }, []);
+  const {
+    propositions,
+    setPropositions,
+    firstPropositionsToShow,
+    isConnectedToInternet,
+  } = usePropositions();
 
   useEffect(() => {
     (async () => {
@@ -245,7 +160,7 @@ export default function Levels() {
     })();
   }, [index]);
 
-  const storePassedPropositions = async (idNewPassedProposition) => {
+  const storePassedPropositions = async (idNewPassedProposition: string) => {
     try {
       var currentPassedPropositions = await AsyncStorage.getItem(
         "@passed_propositions"
@@ -299,7 +214,7 @@ export default function Levels() {
     setIndex((index + 1) % propositions.length);
   };
 
-  const toggleLike = async (index) => {
+  const toggleLike = async (index: number) => {
     const candidateId = finalPropositionsToShow[index].idCandidat;
     const propositionIDForList = finalPropositionsToShow[index].id;
 
@@ -315,7 +230,12 @@ export default function Levels() {
       var currentCandidateScore = await AsyncStorage.getItem(candidateVariable);
       var currentDislikeCandidateScore = await AsyncStorage.getItem(
         dislikeCandidateVariable
-      );
+      ).then((value) => {
+        if (value) {
+          return parseInt(value);
+        }
+        return 0;
+      });
 
       // Set sur 0 le nombre de like si elle n'est pas définit
       if (
@@ -370,18 +290,20 @@ export default function Levels() {
         // On ajoute cette proposition dans la liste des propositions likées
         currentLikeListForCandidate = JSON.parse(currentLikeListForCandidate);
 
-        var newLikeListForCandidate = [
+        var newLikeListForCandidate: string[] = [
           ...currentLikeListForCandidate,
           propositionIDForList,
         ];
-        newLikeListForCandidate = JSON.stringify(newLikeListForCandidate);
+        const newLikeListForCandidateStringified = JSON.stringify(
+          newLikeListForCandidate
+        );
 
         // console.log("Liste des likes mise à jour : ", newLikeListForCandidate);
 
         try {
           await AsyncStorage.setItem(
             likeListForCandidateVariable,
-            newLikeListForCandidate
+            newLikeListForCandidateStringified
           );
         } catch (e) {
           console.log(e);
@@ -390,11 +312,11 @@ export default function Levels() {
         // Si il n'y a aucun like passée
         var firstLikeList = [];
         firstLikeList.push(propositionIDForList);
-        firstLikeList = JSON.stringify(firstLikeList);
+        const firstLikeListStringified = JSON.stringify(firstLikeList);
         try {
           await AsyncStorage.setItem(
             likeListForCandidateVariable,
-            firstLikeList
+            firstLikeListStringified
           ).then(() =>
             console.log("Liste des likes mise à jour : ", firstLikeList)
           );
@@ -428,7 +350,12 @@ export default function Levels() {
       );
       var currentCandidateLike = await AsyncStorage.getItem(
         likeCandidateVariable
-      );
+      ).then((value) => {
+        if (value) {
+          return parseInt(value);
+        }
+        return 0;
+      });
 
       console.log(
         "Nb de likes pour le candidat (action dislike) : ",
