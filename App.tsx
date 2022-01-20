@@ -48,10 +48,11 @@ import CandidatesResults from "./src/screens/CandidatesResults";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as Linking from "expo-linking";
-
+import { RootStackParamList, TabParamList } from "./src/types/navigation";
 enableScreens();
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+
+const Stack = createStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator = () => (
   <Tab.Navigator
