@@ -13,6 +13,7 @@ import findCandidateDetails from "../../../assets/queries/findCandidateDetails";
 import styles from "./styles";
 
 export default function ResultCandidateCard(props) {
+  // console.log(props.item.position);
   const navigation = useNavigation();
 
   const [candidateDetails, setCandidateDetails] = useState([]);
@@ -128,7 +129,9 @@ export default function ResultCandidateCard(props) {
       var scoreForCandidate = likesPercentageForCandidate;
       return round(scoreForCandidate);
     };
-    const currentPourcentage = await getPourcentageForCandidate(props.idCandidat);
+    const currentPourcentage = await getPourcentageForCandidate(
+      props.idCandidat
+    );
     setCandidatePourcentage(currentPourcentage);
   }, [props.item.isFocused, isFocused, props.item.score]);
 
@@ -153,14 +156,10 @@ export default function ResultCandidateCard(props) {
         ]}
       >
 
-        <View
-          style={[
-            styles.candidateDetailsContainer,
-            { marginTop: 10 },
-          ]}
-        >
+        <View style={[styles.candidateDetailsContainer, { marginTop: 10 }]}>
+          <Text></Text>
           <Text style={styles.hashtagPositionText}>#</Text>
-          <Text style={styles.positionText}>{props.position}</Text>
+          <Text style={styles.positionText}>{props.item.position}</Text>
 
           <Text style={styles.candidateFirtnameText}>
             {candidateDetails[0].firstname}
