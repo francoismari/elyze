@@ -22,10 +22,7 @@ import {
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
-import {
-  FontAwesome5,
-  Octicons,
-} from "@expo/vector-icons";
+import { FontAwesome5, Octicons } from "@expo/vector-icons";
 import colors from "./assets/colors/colors";
 import * as Haptics from "expo-haptics";
 
@@ -114,21 +111,23 @@ export default function App() {
   const [isSetUp, setIsSetUp] = useState(true);
   const [hasAccepted, setHasAccepted] = useState(false);
 
-  useEffect(async () => {
-    try {
-      await AsyncStorage.getItem("@isSetUp2").then((response) => {
-        if (response == null) {
-          setIsSetUp(false);
-        }
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  useEffect(() => {
+    (async () => {
+      try {
+        await AsyncStorage.getItem("@isSetUp2").then((response) => {
+          if (response == null) {
+            setIsSetUp(false);
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    })();
   }, []);
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
+
   const responseListener = useRef();
 
   useEffect(() => {
@@ -136,21 +135,20 @@ export default function App() {
       setExpoPushToken(token)
     );
 
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
+    const notificationListener = Notifications.addNotificationReceivedListener(
+      (notification) => {
         setNotification(notification);
-      });
+      }
+    );
 
-    responseListener.current =
+    const responseListener =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
 
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
 
@@ -246,7 +244,6 @@ export default function App() {
     const toggleDoneSetUp = async () => {
       if (hasAccepted) {
         try {
-
           await AsyncStorage.setItem("@isSetUp2", "true").then(async () => {
             // Vérifier si l'utilisateur à accepté les CGU et l'ajouter à AWS
             const newUserRequest = `mutation addNewUser {
@@ -481,7 +478,6 @@ export default function App() {
                     marginHorizontal: 60,
                     flexDirection: "row",
                     marginTop: 10,
-                    alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
@@ -523,7 +519,18 @@ export default function App() {
                   </TouchableOpacity>
                 </View>
 
-                <Text style={{paddingHorizontal: 30, textAlign: 'center', color: 'white', fontWeight: '500', marginTop: 20}}>Aucune donnée personnelle n'est collectée par ELYZE lors de l'utilisation de l'app 🕵️</Text>
+                <Text
+                  style={{
+                    paddingHorizontal: 30,
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "500",
+                    marginTop: 20,
+                  }}
+                >
+                  Aucune donnée personnelle n'est collectée par ELYZE lors de
+                  l'utilisation de l'app 🕵️
+                </Text>
 
                 <TouchableOpacity
                   onPress={() => toggleDoneSetUp()}
