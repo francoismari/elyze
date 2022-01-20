@@ -53,55 +53,47 @@ export default function EditUserInfo({ route }) {
     if (item == "birthDate") {
       const newUserAge = 2021 - yearOfBirth;
       console.log(userID);
-
-      if (
-        dayOfBirth !== "" &&
-        monthOfBirth !== "" &&
-        yearOfBirth !== "" &&
-        monthOfBirth <= 12 &&
-        yearOfBirth > 1900 &&
-        newUserAge > 13 &&
-        dayOfBirth <= 31
-      ) {
-        // Mettre à jour AWS
-
-        const updateUserBirthYear =
-          `mutation editBirthYear {
-        updateUserInfo(input: {id: "` +
-          userID +
-          `", yearBirth: ` +
-          parseInt(yearOfBirth) +
-          `, dayBirth: ` +
-          parseInt(dayOfBirth) +
-          `, monthBirth: ` +
-          parseInt(monthOfBirth) +
-          `})
-      }`;
-
-        console.log(updateUserBirthYear);
-
-        try {
-          await API.graphql(graphqlOperation(updateUserBirthYear)).then(
-            async () => {
-              // Mettre à jour AsyncStorage
-              await AsyncStorage.setItem("@userDayOfBirth", dayOfBirth);
-              await AsyncStorage.setItem("@userMonthOfBirth", monthOfBirth);
-              await AsyncStorage.setItem("@userYearOfBirth", yearOfBirth).then(
-                () =>
-                  navigation.navigate("UserInfo", {
-                    newBirthDay: dayOfBirth,
-                    newBirthMonth: monthOfBirth,
-                    newBirthYear: yearOfBirth,
-                  })
-              );
-            }
-          );
-        } catch (e) {
-          Alert.alert("Oups 😖", "Une erreur s'est produite.");
-          console.log(e);
-        }
-      } else {
+      
+      if(new Date(`${yearOfBirth}-${monthOfBirth}-${dayOfBirth}`) === 'Invalid Date') {
         Alert.alert("Oups 😖", "La date de naissance entrée est invalide.");
+        return ; 
+      }
+
+      // Mettre à jour AWS
+      const updateUserBirthYear =
+        `mutation editBirthYear {
+      updateUserInfo(input: {id: "` +
+        userID +
+        `", yearBirth: ` +
+        parseInt(yearOfBirth) +
+        `, dayBirth: ` +
+        parseInt(dayOfBirth) +
+        `, monthBirth: ` +
+        parseInt(monthOfBirth) +
+        `})
+    }`;
+
+      console.log(updateUserBirthYear);
+
+      try {
+        await API.graphql(graphqlOperation(updateUserBirthYear)).then(
+          async () => {
+            // Mettre à jour AsyncStorage
+            await AsyncStorage.setItem("@userDayOfBirth", dayOfBirth);
+            await AsyncStorage.setItem("@userMonthOfBirth", monthOfBirth);
+            await AsyncStorage.setItem("@userYearOfBirth", yearOfBirth).then(
+              () =>
+                navigation.navigate("UserInfo", {
+                  newBirthDay: dayOfBirth,
+                  newBirthMonth: monthOfBirth,
+                  newBirthYear: yearOfBirth,
+                })
+            );
+          }
+        );
+      } catch (e) {
+        Alert.alert("Oups 😖", "Une erreur s'est produite.");
+        console.log(e);
       }
 
       // console.log("Test");

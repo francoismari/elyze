@@ -412,13 +412,10 @@ export default function Levels() {
 
       const likeCandidateVariable = "@score_candidat_" + candidateId;
 
-      const postalCode = await AsyncStorage.getItem("@postalCode");
-      const idUser = await AsyncStorage.getItem("@idUser");
-
-      var currentCandidateDislike = await AsyncStorage.getItem(
+      const currentCandidateDislike = await AsyncStorage.getItem(
         dislikeCandidateVariable
       );
-      var currentCandidateLike = await AsyncStorage.getItem(
+      const currentCandidateLike = await AsyncStorage.getItem(
         likeCandidateVariable
       );
 
@@ -428,46 +425,46 @@ export default function Levels() {
       );
 
       // Set sur 0 le nombre de like si elle n'est pas définit
-      if (currentCandidateLike == null || isNaN(currentCandidateLike)) {
+      if (!currentCandidateLike || !Number.isInteger(currentCandidateLike)) {
         try {
-          await AsyncStorage.setItem(likeCandidateVariable, "0").then(() =>
-            console.log(
-              "Nombre de likes mis à jour pour ",
-              likeCandidateVariable
-            )
+          await AsyncStorage.setItem(likeCandidateVariable, "0");
+          console.log(
+            "Nombre de likes mis à jour pour ",
+            likeCandidateVariable
           );
         } catch (e) {
           console.log(e);
         }
       }
 
-      if (currentCandidateDislike !== null) {
-        // Si !== null (>0) -> convertir en Int, ajouter 1, reconvertir en String
-        const intScore = parseInt(currentCandidateDislike);
-        const newScore = intScore + 1;
-
-        console.log(
-          "On augmente de 1 point le nb de dislike du candidat :",
-          newScore
-        );
-
-        await AsyncStorage.setItem(
-          dislikeCandidateVariable,
-          newScore.toString()
-        );
-      } else {
+      if (currentCandidateDislike === null) {
         // Si le candidat n'a aucun point (=null) -> setItem sur 1)
         try {
-          await AsyncStorage.setItem(dislikeCandidateVariable, "1").then(() =>
-            console.log(
-              "On set sur 1 le nombre de dislike ",
-              dislikeCandidateVariable
-            )
+          await AsyncStorage.setItem(dislikeCandidateVariable, "1");
+          console.log(
+            "On set sur 1 le nombre de dislike ",
+            dislikeCandidateVariable
           );
+
+          return ;
         } catch (e) {
           console.log("Erreur pour mettre à jour le 1er score : ", e);
         }
       }
+
+      // Si !== null (>0) -> convertir en Int, ajouter 1, reconvertir en String
+      const intScore = parseInt(currentCandidateDislike);
+      const newScore = intScore + 1;
+
+      console.log(
+        "On augmente de 1 point le nb de dislike du candidat :",
+        newScore
+      );
+
+      await AsyncStorage.setItem(
+        dislikeCandidateVariable,
+        newScore.toString()
+      );
     } catch (e) {
       console.log("Impossible de récupérer le score du candidat", e);
     }
@@ -481,41 +478,42 @@ export default function Levels() {
         dislikeListForCandidateVariable
       );
 
-      if (currentDislikeListForCandidate !== null) {
-        // On ajoute cette proposition dans la liste des propositions likées
-        currentDislikeListForCandidate = JSON.parse(
-          currentDislikeListForCandidate
-        );
-
-        var newDislikeListForCandidate = [
-          ...currentDislikeListForCandidate,
-          propositionIDForList,
-        ];
-        newDislikeListForCandidate = JSON.stringify(newDislikeListForCandidate);
-
-        try {
-          await AsyncStorage.setItem(
-            dislikeListForCandidateVariable,
-            newDislikeListForCandidate
-          );
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
+      if (currentDislikeListForCandidate === null) {
         // Si il n'y a aucun like passée
         var firstDislikeList = [];
         firstDislikeList.push(propositionIDForList);
         firstDislikeList = JSON.stringify(firstDislikeList);
+
         try {
           await AsyncStorage.setItem(
             dislikeListForCandidateVariable,
             firstDislikeList
-          ).then(() =>
-            console.log("Liste des dislikes mise à jour : ", firstDislikeList)
           );
+          console.log("Liste des dislikes mise à jour : ", firstDislikeList);
         } catch (e) {
           console.log(e);
         }
+
+        return ;
+      }
+      // On ajoute cette proposition dans la liste des propositions likées
+      currentDislikeListForCandidate = JSON.parse(
+        currentDislikeListForCandidate
+      );
+
+      var newDislikeListForCandidate = [
+        ...currentDislikeListForCandidate,
+        propositionIDForList,
+      ];
+      newDislikeListForCandidate = JSON.stringify(newDislikeListForCandidate);
+
+      try {
+        await AsyncStorage.setItem(
+          dislikeListForCandidateVariable,
+          newDislikeListForCandidate
+        );
+      } catch (e) {
+        console.log(e);
       }
     } catch (e) {
       console.log(

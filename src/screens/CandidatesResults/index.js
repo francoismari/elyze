@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import PropositionListCard from "../../components/PropositionListCard";
 import styles from "./styles";
-import getPropositionDetails from "../../../assets/queries/getPropositionDetails";
-import { API, graphqlOperation } from "aws-amplify";
 
 export default function CandidatesResults({ route }) {
   const candidateInfo = route.params;
