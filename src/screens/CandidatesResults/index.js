@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import PropositionListCard from "../../components/PropositionListCard";
 import styles from "./styles";
-import getPropositionDetails from "../../../assets/queries/getPropositionDetails";
-import { API, graphqlOperation } from "aws-amplify";
 
 export default function CandidatesResults({ route }) {
   const candidateInfo = route.params;
@@ -67,129 +65,129 @@ export default function CandidatesResults({ route }) {
 
   if (loaded) {
     return (
-      <View style={styles.container}>
-        <View style={{ backgroundColor: candidateInfo.bgColor }}>
-          <Text
-            style={{
-              paddingHorizontal: 20,
-              paddingTop: Dimensions.get("window").height * 0.06,
-              paddingBottom: 10,
-              color: "white",
-              fontWeight: "bold",
-              fontSize: Dimensions.get("window").width * 0.085,
-            }}
-          >
-            {candidateInfo.firstname} {candidateInfo.lastname}
-          </Text>
-
-          <View style={styles.menuContainer}>
-            <TouchableOpacity
-              onPress={() => setViewIndex(1)}
-              style={[
-                styles.menuItemContainer,
-                {
-                  marginLeft: 5,
-                  backgroundColor:
-                    viewIndex == 1 ? candidateInfo.bgColor : "white",
-                },
-              ]}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: viewIndex == 1 ? "white" : candidateInfo.bgColor,
-                  fontSize: 20,
-                }}
-              >
-                👍 ({likedPropositions.length})
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => setViewIndex(2)}
-              style={[
-                styles.menuItemContainer,
-                {
-                  marginLeft: 5,
-                  marginRight: 5,
-                  backgroundColor:
-                    viewIndex == 2 ? candidateInfo.bgColor : "white",
-                },
-              ]}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: viewIndex == 2 ? "white" : candidateInfo.bgColor,
-                  fontSize: 20,
-                }}
-              >
-                👎 ({dislikedPropositions.length})
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {viewIndex == 1 ? (
-          <View style={{ flex: 1 }}>
-            {likedPropositions.length > 0 ? (
-              <FlatList
-                style={{ marginBottom: 90 }}
-                data={likedPropositions}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => {
-                  console.log("Item : ", item);
-                  // const propositionDetailsRequest = getPropositionDetails(item);
-
-                  return <PropositionListCard propositionID={item} />;
-                }}
-              />
-            ) : (
-              <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Aucune proposition likée
-                </Text>
-              </View>
-            )}
-          </View>
-        ) : viewIndex == 2 ? (
-          <View style={{ flex: 1 }}>
-            {dislikedPropositions.length > 0 ? (
-              <FlatList
-                style={{ marginBottom: 90 }}
-                data={dislikedPropositions}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => {
-                  console.log("Item:", item);
-                  return <PropositionListCard propositionID={item} />;
-                }}
-              />
-            ) : (
-              <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Aucune proposition dislikée
-                </Text>
-              </View>
-            )}
-          </View>
-        ) : null}
-
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={[
-            styles.closeButton,
-            { backgroundColor: candidateInfo.bgColor },
-          ]}
-        >
-          <Text style={styles.closeButtonText}>Fermer</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  } else {
-    return (
       <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator size={"large"} />
       </View>
     );
   }
+  
+  return (
+    <View style={styles.container}>
+      <View style={{ backgroundColor: candidateInfo.bgColor }}>
+        <Text
+          style={{
+            paddingHorizontal: 20,
+            paddingTop: Dimensions.get("window").height * 0.06,
+            paddingBottom: 10,
+            color: "white",
+            fontWeight: "bold",
+            fontSize: Dimensions.get("window").width * 0.085,
+          }}
+        >
+          {candidateInfo.firstname} {candidateInfo.lastname}
+        </Text>
+
+        <View style={styles.menuContainer}>
+          <TouchableOpacity
+            onPress={() => setViewIndex(1)}
+            style={[
+              styles.menuItemContainer,
+              {
+                marginLeft: 5,
+                backgroundColor:
+                  viewIndex == 1 ? candidateInfo.bgColor : "white",
+              },
+            ]}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                color: viewIndex == 1 ? "white" : candidateInfo.bgColor,
+                fontSize: 20,
+              }}
+            >
+              👍 ({likedPropositions.length})
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setViewIndex(2)}
+            style={[
+              styles.menuItemContainer,
+              {
+                marginLeft: 5,
+                marginRight: 5,
+                backgroundColor:
+                  viewIndex == 2 ? candidateInfo.bgColor : "white",
+              },
+            ]}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                color: viewIndex == 2 ? "white" : candidateInfo.bgColor,
+                fontSize: 20,
+              }}
+            >
+              👎 ({dislikedPropositions.length})
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {viewIndex == 1 ? (
+        <View style={{ flex: 1 }}>
+          {likedPropositions.length > 0 ? (
+            <FlatList
+              style={{ marginBottom: 90 }}
+              data={likedPropositions}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                console.log("Item : ", item);
+                // const propositionDetailsRequest = getPropositionDetails(item);
+
+                return <PropositionListCard propositionID={item} />;
+              }}
+            />
+          ) : (
+            <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                Aucune proposition likée
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : viewIndex == 2 ? (
+        <View style={{ flex: 1 }}>
+          {dislikedPropositions.length > 0 ? (
+            <FlatList
+              style={{ marginBottom: 90 }}
+              data={dislikedPropositions}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                console.log("Item:", item);
+                return <PropositionListCard propositionID={item} />;
+              }}
+            />
+          ) : (
+            <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                Aucune proposition dislikée
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : null}
+
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={[
+          styles.closeButton,
+          { backgroundColor: candidateInfo.bgColor },
+        ]}
+      >
+        <Text style={styles.closeButtonText}>Fermer</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }

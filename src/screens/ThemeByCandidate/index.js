@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  Dimensions,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
@@ -64,58 +63,58 @@ export default function ThemeByCandidate({ route }) {
     setLoaded(true);
   }, [propositionListForCandidate]);
 
-  if (loaded) {
-    console.log("Propositions : ", propositionListForCandidate);
+  if (!loaded) {
 
-    return (
-      <View style={styles.container}>
-        <ThemeHeader
-          title={themeInfo[0].title}
-          iconType={themeInfo[0].iconType}
-          lightColor={themeInfo[0].lightColor}
-          darkColor={themeInfo[0].darkColor}
-          iconTitle={themeInfo[0].iconTitle}
-        />
-
-        <Text
-          style={{
-            textTransform: "uppercase",
-            paddingVertical: 15,
-            paddingHorizontal: 20,
-          }}
-        >
-          PROPOSÉ PAR {themeDetails.candidateFirstName}{" "}
-          {themeDetails.candidateLastName}
-        </Text>
-
-        <FlatList
-          data={propositionListForCandidate}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("PropositionDetails", {
-                  title: item.title,
-                  theme: item.idTheme,
-                  articleContent: item.articleContent,
-                  idCandidat: item.idCandidat,
-                  showCandidateInfo: true,
-                  source: item.source,
-                })
-              }
-            >
-              <PropositionListCard propositionID={item.id} />
-            </TouchableOpacity>
-          )}
-        />
-      </View>
-    );
-  } else {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size={"large"} />
       </View>
     );
   }
+  console.log("Propositions : ", propositionListForCandidate);
+
+  return (
+    <View style={styles.container}>
+      <ThemeHeader
+        title={themeInfo[0].title}
+        iconType={themeInfo[0].iconType}
+        lightColor={themeInfo[0].lightColor}
+        darkColor={themeInfo[0].darkColor}
+        iconTitle={themeInfo[0].iconTitle}
+      />
+
+      <Text
+        style={{
+          textTransform: "uppercase",
+          paddingVertical: 15,
+          paddingHorizontal: 20,
+        }}
+      >
+        PROPOSÉ PAR {themeDetails.candidateFirstName}{" "}
+        {themeDetails.candidateLastName}
+      </Text>
+
+      <FlatList
+        data={propositionListForCandidate}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("PropositionDetails", {
+                title: item.title,
+                theme: item.idTheme,
+                articleContent: item.articleContent,
+                idCandidat: item.idCandidat,
+                showCandidateInfo: true,
+                source: item.source,
+              })
+            }
+          >
+            <PropositionListCard propositionID={item.id} />
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
 }

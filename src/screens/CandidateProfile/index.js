@@ -31,7 +31,7 @@ export default function CandidateProfile({ route }) {
   const [lastname, setLastname] = useState("");
   const [age, setAge] = useState();
   const [groupe, setGroupe] = useState("");
-  const [image, setImage] = useState();
+  const [_, setImage] = useState();
   const [imageProfile, setImageProfile] = useState();
   const [favorites, setFavorites] = useState([]);
   const [creditsForPicture, setCreditsForPicture] = useState("");
@@ -51,16 +51,19 @@ export default function CandidateProfile({ route }) {
         ...candidateProfileDetails
       )
     );
-    setIDCandidat(candidateDetails[0].id);
-    setFirstname(candidateDetails[0].firstname);
-    setLastname(candidateDetails[0].lastname);
-    setAge(candidateDetails[0].age);
-    setGroupe(candidateDetails[0].groupe);
-    setImage(candidateDetails[0].image);
-    setImageProfile(candidateDetails[0].imageProfile);
-    setFavorites(candidateDetails[0].favorites);
-    setCreditsForPicture(candidateDetails[0].pictureCredits);
-    setStudies(candidateDetails[0].studies);
+
+    const candidate = [candidateDetails];
+
+    setIDCandidat(candidate.id);
+    setFirstname(candidate.firstname);
+    setLastname(candidate.lastname);
+    setAge(candidate.age);
+    setGroupe(candidate.groupe);
+    setImage(candidate.image);
+    setImageProfile(candidate.imageProfile);
+    setFavorites(candidate.favorites);
+    setCreditsForPicture(candidate.pictureCredits);
+    setStudies(candidate.studies);
 
     /* On peut afficher les infos quand elles sont chargées */
     setIsLoaded(true);
