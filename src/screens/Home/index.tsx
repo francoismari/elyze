@@ -24,11 +24,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import resetData from "../../../assets/queries/resetData";
 import { getPropositions, usePropositions } from "./usePropositions";
+import { RootStackParamList } from "../../types/navigation";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const swipeRef = createRef();
 
 export default function Levels() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [index, setIndex] = useState(0);
 
