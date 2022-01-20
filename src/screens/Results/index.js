@@ -129,86 +129,13 @@ export default function Results() {
     }
   };
 
-  const createFinalTable = (
-    scoreFirst,
-    scoreSecond,
-    scoreThird,
-    scoreFourth,
-    scoreFifth,
-    scoreSix,
-    scoreSeven,
-    scoreEight,
-    scoreNine,
-    scoreTen,
-    scoreEleven,
-    scoreTwelve,
-    scoreThirteen,
-    scoreFourteen,
-    scoreFiveteen
-  ) => {
-    var finalScoreForCandidates = [
-      {
-        id: 1,
-        score: scoreFirst,
-      },
-      {
-        id: 2,
-        score: scoreSecond,
-      },
-      {
-        id: 3,
-        score: scoreThird,
-      },
-      {
-        id: 4,
-        score: scoreFourth,
-      },
-      {
-        id: 5,
-        score: scoreFifth,
-      },
-      {
-        id: 6,
-        score: scoreSix,
-      },
-      {
-        id: 7,
-        score: scoreSeven,
-      },
-      {
-        id: 8,
-        score: scoreEight,
-      },
-      {
-        id: 9,
-        score: scoreNine,
-      },
-      {
-        id: 10,
-        score: scoreTen,
-      },
-      {
-        id: 11,
-        score: scoreEleven,
-      },
-      {
-        id: 12,
-        score: scoreTwelve,
-      },
-      {
-        id: 13,
-        score: scoreThirteen,
-      },
-      {
-        id: 14,
-        score: scoreFourteen,
-      },
-      {
-        id: 15,
-        score: scoreFiveteen,
-      },
-    ];
-
+  const createFinalTable = (table) => {
+     const finalScoreForCandidates = table.map((score, index) =>
+    ({
+      id: index,
+      score: score,
+    })
+    );
     finalScoreForCandidates.sort(
       (a, b) => parseFloat(b.score) - parseFloat(a.score)
     );
@@ -235,41 +162,8 @@ export default function Results() {
       getScoreFor(15),
     ]).then((response) => {
       // console.log("Réponse du tableau : ", response);
-      if (
-        isNaN(response[0]) == false &&
-        isNaN(response[1]) == false &&
-        isNaN(response[2]) == false &&
-        isNaN(response[3]) == false &&
-        isNaN(response[4]) == false &&
-        isNaN(response[5]) == false &&
-        isNaN(response[6]) == false &&
-        isNaN(response[7]) == false &&
-        isNaN(response[8]) == false &&
-        isNaN(response[9]) == false &&
-        isNaN(response[10]) == false &&
-        isNaN(response[11]) == false &&
-        isNaN(response[12]) == false &&
-        isNaN(response[13]) == false &&
-        isNaN(response[14]) == false
-      ) {
-        const finalTableSorted = createFinalTable(
-          response[0],
-          response[1],
-          response[2],
-          response[3],
-          response[4],
-          response[5],
-          response[6],
-          response[7],
-          response[8],
-          response[9],
-          response[10],
-          response[11],
-          response[12],
-          response[13],
-          response[14]
-        );
-
+      if (response.every((el) => el == false)) {
+        const finalTableSorted = createFinalTable(response);
         setScoreCandidats(finalTableSorted);
 
         // console.log("Score finaux : ", finalTableSorted);
