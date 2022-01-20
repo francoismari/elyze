@@ -162,7 +162,7 @@ export default function Results() {
       getScoreFor(15),
     ]).then((response) => {
       // console.log("Réponse du tableau : ", response);
-      if (response.every((el) => el == false)) {
+      if (response.every((el) => isNaN(el) == false)) {
         const finalTableSorted = createFinalTable(response);
         setScoreCandidats(finalTableSorted);
 
