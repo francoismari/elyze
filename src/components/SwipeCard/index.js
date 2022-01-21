@@ -63,27 +63,10 @@ export default function SwipeCard(props) {
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
                 color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 }
               />
             ) : iconType == "FontAwesome" ? (
@@ -91,27 +74,10 @@ export default function SwipeCard(props) {
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
                 color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 }
               />
             ) : iconType == "AntDesign" ? (
@@ -119,27 +85,10 @@ export default function SwipeCard(props) {
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
                 color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 }
               />
             ) : iconType == "Entypo" ? (
@@ -147,27 +96,10 @@ export default function SwipeCard(props) {
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
                 color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 }
               />
             ) : iconType == "MaterialCommunityIcons" ? (
@@ -175,27 +107,10 @@ export default function SwipeCard(props) {
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
                 color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 }
               />
             ) : iconType == "MaterialIcons" ? (
@@ -203,27 +118,10 @@ export default function SwipeCard(props) {
                 name={iconTitle}
                 size={Dimensions.get("window").width * 0.07}
                 color={
-                  idTheme == 1
-                    ? "white"
-                    : idTheme == 2
-                    ? "white"
-                    : idTheme == 3
-                    ? "white"
-                    : idTheme == 4
-                    ? "white"
-                    : idTheme == 5
-                    ? "#FAFC91"
-                    : idTheme == 6
-                    ? "white"
-                    : idTheme == 7
-                    ? "white"
-                    : idTheme == 8
-                    ? "white"
-                    : idTheme == 9
-                    ? "white"
-                    : idTheme == 10
-                    ? "white"
-                    : null
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 }
               />
             ) : null}
@@ -232,27 +130,10 @@ export default function SwipeCard(props) {
                 styles.themeInfoContainer,
                 {
                   backgroundColor:
-                  idTheme == 1
-                      ? "white"
-                      : idTheme == 2
-                      ? "white"
-                      : idTheme == 3
-                      ? "white"
-                      : idTheme == 4
-                      ? "white"
-                      : idTheme == 5
-                      ? "#FAFC91"
-                      : idTheme == 6
-                      ? "white"
-                      : idTheme == 7
-                      ? "white"
-                      : idTheme == 8
-                      ? "white"
-                      : idTheme == 9
-                      ? "white"
-                      : idTheme == 10
-                      ? "white"
-                      : null,
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 },
               ]}
             >
@@ -282,27 +163,10 @@ export default function SwipeCard(props) {
                 styles.questionText,
                 {
                   color:
-                  idTheme == 1
-                      ? "white"
-                      : idTheme == 2
-                      ? "white"
-                      : idTheme == 3
-                      ? "white"
-                      : idTheme == 4
-                      ? "white"
-                      : idTheme == 5
-                      ? "#FAFC91"
-                      : idTheme == 6
-                      ? "white"
-                      : idTheme == 7
-                      ? "white"
-                      : idTheme == 8
-                      ? "white"
-                      : idTheme == 9
-                      ? "white"
-                      : idTheme == 10
-                      ? "white"
-                      : null,
+                  idTheme.toString().codePointAt(0) === 53 ?
+                    String.fromCharCode( 35, 70, 65, 70, 67,57, 49 ) :
+                  idTheme > Math.sqrt(100) || idTheme <= Math.sqrt(0) ?
+                    null : String.fromCharCode( 70/2,70,70,70 )
                 },
               ]}
             >
