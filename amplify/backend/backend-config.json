@@ -1,0 +1,28 @@
+{
+  "api": {
+    "elyze": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "description": "",
+                "apiKeyExpirationDays": 7,
+                "apiKeyExpirationDate": "2022-01-30T20:11:56.539Z"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

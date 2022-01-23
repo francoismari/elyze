@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-elyze-dev-210343-authRole",
+      "UnauthRoleArn": "arn:aws:iam::559179535473:role/amplify-elyze-dev-210343-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::559179535473:role/amplify-elyze-dev-210343-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-elyze-dev-210343-deployment",
+      "UnauthRoleName": "amplify-elyze-dev-210343-unauthRole",
+      "StackName": "amplify-elyze-dev-210343",
+      "StackId": "arn:aws:cloudformation:eu-north-1:559179535473:stack/amplify-elyze-dev-210343/94ab3480-7c87-11ec-ac08-06df9fbdcca0",
+      "AmplifyAppId": "d2j8oxvx1ncksi"
+    }
+  }
+}

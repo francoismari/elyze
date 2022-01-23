@@ -14,7 +14,13 @@ https://reactnative.dev/docs/environment-setup
 This app uses the AWS Amplify GraphQL API to store and retrieve data.
 Follow the instructions to install Amplify CLI here : https://docs.amplify.aws/cli/start/install/
 
-You will need an AWS account to create a GraphQL Database and import the schema.
+You will need an AWS account to create a GraphQL API and import the schema.
+
+In the working directory, type `amplify init` and select 'AWS Profile' as your authentification method.
+Then use `amplify configure` to connect your AWS account.
+Then, push the schema to AWS Amplify with `amplify push`
+
+You can then use AWS AppSync to insert new propositions into DynamoDB
 
 # Issues
 

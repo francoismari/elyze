@@ -1,0 +1,83 @@
+type Proposition
+  @model
+  @auth(
+    rules: [
+      # allow IAM users to create, update, delete propositions
+      {
+        allow: private
+        provider: iam
+        operations: [create, update, delete, read]
+      }
+      # allow all guest users (not authenticated) to read posts
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  idCandidat: Int
+  idTheme: Int
+  source: String
+  title: String
+  toBeShownFirst: Int
+  toShowOnSwipe: Int
+  firstPropositions: Int
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  articleContent: String
+}
+
+type UserInfo
+  @model
+  @auth(
+    rules: [
+      # allow IAM users to create, update, delete users
+      {
+        allow: private
+        provider: iam
+        operations: [create, update, delete, read]
+      }
+      # allow all guest users (not authenticated) to read posts
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  postalCode: String
+  haveVoted: String
+  haveVotedFor: String
+  willVoteFor: String
+  dayBirth: String
+  monthBirth: String
+  yearBirth: String
+  genre: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  owner: Int
+}
+
+type SwipeStat
+  @model
+  @auth(
+    rules: [
+      # allow IAM users to create, update, delete users
+      {
+        allow: private
+        provider: iam
+        operations: [create, update, delete, read]
+      }
+      # allow all guest users (not authenticated) to read posts
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  titleProposition: String
+  idCandidat: Int
+  rating: String
+  postalCode: Int
+  idProposition: String
+  idUser: String
+  haveVotedFor: String
+  willVoteFor: String
+  osVersion: Int
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  owner: Int
+}
