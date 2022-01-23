@@ -8,11 +8,13 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.1.6",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "6.0.2",
     "@react-native-picker/picker": "^2.2.1",
     "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/core": "^6.1.0",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "@react-navigation/stack": "^6.0.11",
@@ -30,7 +32,9 @@
     "expo-sharing": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "~0.10.15",
+    "graphql": "^14.0.0",
     "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
@@ -48,9 +52,9 @@
     "react-native-screens": "~3.8.0",
     "react-native-share": "^7.3.2",
     "react-native-status-bar-height": "^2.6.0",
+    "react-native-svg": "^12.1.1",
     "react-native-view-overflow": "0.0.5",
-    "react-native-view-shot": "3.1.2",
-    "react-native-web": "0.17.1"
+    "react-native-view-shot": "3.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

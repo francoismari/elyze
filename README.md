@@ -1,5 +1,21 @@
-# Application ELYZE
-Notes : les fichiers et dossiers de configuration des serveurs AWS Amplify ont été supprimés du code.
-Le fichier 'google-services.json' mentionné dans 'app.json' ne sert que pour la configuration des notifications push avec Firebase (voir https://docs.expo.dev/push-notifications/using-fcm/ pour plus de détails).
-<br>
-© François Mari, 2022
+# Pre-requisites
+
+Firebase Cloud Messaging is required for all managed and bare workflow Android apps made with Expo.
+You must register an app through the Firebase console and place the configuration file (google-services.json) at the root of the project.
+See https://docs.expo.dev/push-notifications/using-fcm/ for more details.
+
+# Installation
+
+This app is made using Expo CLI, follow the React-Native documentation to setup your dev environnement :
+https://reactnative.dev/docs/environment-setup
+
+# Configure AWS Amplify
+
+This app uses the AWS Amplify GraphQL API to store and retrieve data.
+Follow the instructions to install Amplify CLI here : https://docs.amplify.aws/cli/start/install/
+
+You will need an AWS account to create a GraphQL Database and import the schema.
+
+# Issues
+
+Modules `react-native-deck-swiper` and `react-native-onboarding-swiper` require an old version of react-native-web to function, but it is impossible to downgrade this dependency without breaking the dependency tree of other modules. Therefore, the app cannot be run in browser : use Android or iOS instead.
