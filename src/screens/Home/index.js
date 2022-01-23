@@ -728,7 +728,7 @@ export default function Levels() {
                     animateCardOpacity
                     backgroundColor={"transparent"}
                     accessible={true}
-                    accessibilityHint="Swipez vers la gauche si vous êtes contre, vers la droite si vous êtes pour, et vers le bas si vous ne vous prenoncez pas"
+                    accessibilityHint="Swipez vers la gauche si vous êtes contre, vers la droite si vous êtes pour, et vers le bas si vous ne vous prononcez pas"
                     overlayLabels={{
                       left: {
                         title: "CONTRE",
@@ -810,7 +810,7 @@ export default function Levels() {
                       swipeRef.current.swipeBottom();
                     }}
                     accessible={true}
-                    accessibleLabel="Je ne me prenonce pas"
+                    accessibleLabel="Je ne me prononce pas"
                     accessibleRole="button"
                   >
                     <Text

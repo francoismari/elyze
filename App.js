@@ -87,7 +87,7 @@ const TabNavigator = () => (
       name={"Resultats"}
       component={Results}
       accessible={true}
-      accessibilityLabel="Résultas"
+      accessibilityLabel="Résultats"
       accessibilityRole="menuitem"
       listeners={() => ({
         tabPress: () => {
