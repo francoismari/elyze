@@ -109,8 +109,6 @@ export default function Levels() {
         graphqlOperation(getPropsToShow)
       );
 
-      // console.log(getPropsToShow);
-
       return getAllPropositions;
     } catch (e) {
       return null;

@@ -1,0 +1,147 @@
+# Expo
+.expo
+__generated__
+web-build
+
+# macOS
+.DS_Store
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Ruby
+.direnv
+
+# Env
+.envrc.local
+.env
+
+# Emacs
+*~
+
+# Vim
+.*.swp
+.*.swo
+.*.swn
+.*.swm
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Xcode
+*.pbxuser
+!default.pbxuser
+*.xccheckout
+*.xcscmblueprint
+xcuserdata
+
+# IDEA / Android Studio
+*.iml
+.gradle
+.idea
+
+# Eclipse
+.project
+.settings
+
+# VSCode
+.history/
+
+# Android
+*.apk
+*.hprof
+/android/**/build
+/android/**/.cxx
+/android/**/local.properties
+/android/captures
+/android/expoview/libs/ReactAndroid-temp
+/android/versioned-react-native/ReactAndroid
+ReactAndroid-temp.aar
+
+# Tools
+jarjar-rules.txt
+
+# Template projects
+templates/**/android/**/generated/*
+templates/**/android/app/build
+templates/**/Pods/**
+
+# Codemod
+.codemod.bookmark
+
+# Fastlane
+/*.cer
+/fastlane/report.xml
+/fastlane/Preview.html
+/fastlane/Deployment
+/Preview.html
+/gc_keys.json
+/fastlane/gc_keys.json
+
+# CI
+/android/logcat.txt
+
+# Shell apps
+android-shell-app
+shellAppBase-*
+shellAppIntermediates
+shellAppWorkspaces
+/artifacts/*
+
+# Expo Client builds
+/client-builds
+
+# Expo web env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+apps/bare-expo/deploy-url.txt
+
+# Expo Doc merging
+docs/pages/versions/*/react-native/ADDED_*.md
+docs/pages/versions/*/react-native/REMOVED_*.md
+docs/pages/versions/*/react-native/*.diff
+
+# Home
+/home/dist
+
+# Prebuilds
+/packages/**/*.xcframework
+/packages/**/*.spec.json
+/packages/**/Info-generated.plist
+
+# Pods
+/ios/Pods
+
+#Google Services Config
+google-services.json
+
+
+# VS Code
+.vscode
+
+#amplify-do-not-edit-begin
+amplify/\#current-cloud-backend
+amplify/.config/local-*
+amplify/logs
+amplify/mock-data
+amplify/backend/amplify-meta.json
+amplify/backend/.temp
+build/
+dist/
+node_modules/
+aws-exports.js
+awsconfiguration.json
+amplifyconfiguration.json
+amplifyconfiguration.dart
+amplify-build-config.json
+amplify-gradle-config.json
+amplifytools.xcconfig
+.secret-*
+**.sample
+#amplify-do-not-edit-end
+amplify/backend/api/elyze/cli-inputs.json
