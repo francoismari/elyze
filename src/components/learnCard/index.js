@@ -11,10 +11,12 @@ export default function LearnCard(props) {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("Article", {
+      onPress={() =>
+        navigation.navigate("Article", {
           title: item.title,
-          content: item.articleContent
-      })}
+          content: item.articleContent,
+        })
+      }
     >
       <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.title}</Text>

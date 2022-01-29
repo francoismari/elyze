@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   settingsCategory: {
     marginLeft: 20,
-    fontSize: Dimensions.get('window').width*0.05,
+    fontSize: Dimensions.get("window").width * 0.05,
     textTransform: "uppercase",
     marginBottom: 10,
     marginTop: 15,
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   sectionContainer: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: "#F0F0F0",
     marginHorizontal: 20,
     paddingVertical: 15,
-    borderRadius: 15
-  }
+    borderRadius: 15,
+  },
 });
 
 export default styles;

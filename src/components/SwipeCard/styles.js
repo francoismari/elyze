@@ -8,23 +8,23 @@ const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   cardContainer: {
     width: width * 0.9,
-    height: height * 0.50,
+    height: height * 0.5,
     backgroundColor: "#E9556F",
     borderRadius: 20,
     overflow: "hidden",
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end",
   },
   topCardInfos: {
     justifyContent: "center",
     alignItems: "center",
-    position: 'absolute',
+    position: "absolute",
     top: 10,
-    alignSelf: 'center',
-    zIndex: 10
+    alignSelf: "center",
+    zIndex: 10,
   },
   themeInfoContainer: {
     paddingHorizontal: 10,
-    height: width*0.06,
+    height: width * 0.06,
     backgroundColor: "#FAFC91",
     borderRadius: 25,
     justifyContent: "center",
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   themeText: {
     color: colors.primary,
-    fontSize: width*0.038
+    fontSize: width * 0.038,
   },
   questionContainer: {
     height: height * 0.3,
@@ -44,20 +44,20 @@ const styles = StyleSheet.create({
   },
   questionText: {
     fontWeight: "bold",
-    fontSize: width*0.055,
+    fontSize: width * 0.055,
     textAlign: "center",
     color: "#FAFC91",
-    paddingBottom: height*0.02
+    paddingBottom: height * 0.02,
   },
   bottomCardInfos: {
     backgroundColor: colors.bottomCardColor,
     alignItems: "center",
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   learnMoreButton: {
     flexDirection: "row",
     alignItems: "center",
-    height: width*0.11,
+    height: width * 0.11,
     width: width * 0.82,
     backgroundColor: "white",
     justifyContent: "center",

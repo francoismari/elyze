@@ -13,7 +13,6 @@ import { useNavigation } from "@react-navigation/core";
 import findThemeTitle from "../../../assets/queries/findThemeTitle";
 
 export default function SwipeCard(props) {
-
   if (props.proposition.id !== undefined) {
     const { articleContent, id, idCandidat, idTheme, title, source } =
       props.proposition;
@@ -232,7 +231,7 @@ export default function SwipeCard(props) {
                 styles.themeInfoContainer,
                 {
                   backgroundColor:
-                  idTheme == 1
+                    idTheme == 1
                       ? "white"
                       : idTheme == 2
                       ? "white"
@@ -282,7 +281,7 @@ export default function SwipeCard(props) {
                 styles.questionText,
                 {
                   color:
-                  idTheme == 1
+                    idTheme == 1
                       ? "white"
                       : idTheme == 2
                       ? "white"

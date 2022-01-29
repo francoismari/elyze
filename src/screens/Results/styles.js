@@ -8,21 +8,21 @@ const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: height*0.08,
+    marginTop: height * 0.08,
   },
   headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingRight: 20
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: 20,
   },
   shareButton: {
-    height: width*0.12,
-    width: width*0.12,
+    height: width * 0.12,
+    width: width * 0.12,
     backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 25,
   },
   podiumContainer: {
     flexDirection: "row",
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {},
   podiumImage: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     height: 56,
     width: 65,
     shadowColor: "#000",
@@ -70,23 +70,23 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   listScoreContainer: {
-      backgroundColor: '#FFEDF0'
+    backgroundColor: "#FFEDF0",
   },
   allResultsText: {
-      marginTop: 17,
-      alignSelf: 'center',
-      fontSize: 20,
-      marginBottom: 8
+    marginTop: 17,
+    alignSelf: "center",
+    fontSize: 20,
+    marginBottom: 8,
   },
   passedPropositionsText: {
-    textAlign: 'center',
-    textTransform: 'uppercase',
+    textAlign: "center",
+    textTransform: "uppercase",
     marginTop: -5,
     marginBottom: 10,
-    fontSize: width*0.035,
-    color: 'gray',
-    paddingHorizontal: 30
-  }
+    fontSize: width * 0.035,
+    color: "gray",
+    paddingHorizontal: 30,
+  },
 });
 
 export default styles;

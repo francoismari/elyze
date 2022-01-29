@@ -20,16 +20,16 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 18,
     fontWeight: "500",
-    marginBottom: 5
+    marginBottom: 5,
   },
   candidatDetailsContainer: {
     flexDirection: "row",
-    alignItems: 'center'
+    alignItems: "center",
   },
   candidateImage: {
     height: 24,
     width: 24,
-    borderRadius: 24
+    borderRadius: 24,
   },
   plusButtonContainer: {
     height: 30,

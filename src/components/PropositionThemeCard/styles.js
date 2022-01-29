@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   cardThemeContainer: {
-    width: Dimensions.get('window').width*0.41,
-    height: Dimensions.get('window').width*0.41,
+    width: Dimensions.get("window").width * 0.41,
+    height: Dimensions.get("window").width * 0.41,
     borderRadius: 15,
     overflow: "hidden",
   },

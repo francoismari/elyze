@@ -165,7 +165,7 @@ export default function CandidateProfile({ route }) {
                   marginBottom: 30,
                   color: "gray",
                   fontSize: 12,
-                  width: '80%'
+                  width: "80%",
                 }}
               >
                 Crédit photo du candidat : {creditsForPicture}
@@ -174,7 +174,7 @@ export default function CandidateProfile({ route }) {
           </TriggeringView>
         </ImageHeaderScrollView>
       ) : (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator style={{ alignSelf: "center" }} size={"large"} />
         </View>
       )}

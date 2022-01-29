@@ -155,7 +155,6 @@ export default function ResultCandidateCard(props) {
           },
         ]}
       >
-
         <View style={[styles.candidateDetailsContainer, { marginTop: 10 }]}>
           <Text></Text>
           <Text style={styles.hashtagPositionText}>#</Text>

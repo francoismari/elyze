@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     fontSize: 27,
     letterSpacing: 0.5,
-    color: 'white'
+    color: "white",
   },
   lastnameText: {
     fontWeight: "bold",
     fontSize: 27,
     letterSpacing: 0.5,
-    color: 'white'
+    color: "white",
   },
   cardImage: {
     height: 80,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     position: "absolute",
     bottom: 0,
-    right: Dimensions.get('window').width*0.05,
+    right: Dimensions.get("window").width * 0.05,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

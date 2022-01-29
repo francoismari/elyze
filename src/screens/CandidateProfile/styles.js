@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   upTextContainer: {
     flexDirection: "row",
-    alignItems: 'baseline',
+    alignItems: "baseline",
   },
   nameText: {
     marginTop: 15,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 6,
-    width: Dimensions.get('window').width*0.8
+    width: Dimensions.get("window").width * 0.8,
   },
   groupText: {
     fontSize: 18,
@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
   },
   themeBottomBar: {
-      width: "100%",
-      height: 0.9,
-      backgroundColor: "lightgray",
-      marginLeft: 50,
-      alignSelf: "center",
-      marginTop: 7,
-      marginTop: 15,
-  }
+    width: "100%",
+    height: 0.9,
+    backgroundColor: "lightgray",
+    marginLeft: 50,
+    alignSelf: "center",
+    marginTop: 7,
+    marginTop: 15,
+  },
 });
 
 export default styles;

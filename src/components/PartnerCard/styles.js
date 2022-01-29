@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontWeight: "bold",
     fontSize: 22,
-    width: 200
+    width: 200,
   },
   descriptionText: {
     marginTop: 3,
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: 20,
   },
   cardImage: {

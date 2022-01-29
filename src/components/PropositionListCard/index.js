@@ -15,7 +15,7 @@ import { API, graphqlOperation } from "aws-amplify";
 
 export default function PropositionListCard(props) {
   const propID = props.propositionID;
-  console.log('ID de la proposition : ', propID);
+  console.log("ID de la proposition : ", propID);
 
   const navigation = useNavigation();
 

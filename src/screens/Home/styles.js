@@ -10,21 +10,21 @@ const styles = {
     position: "absolute",
     top: -10,
     left: 0,
-    width: width*0.40,
-    height: height*0.07,
+    width: width * 0.4,
+    height: height * 0.07,
     marginLeft: 26,
-    resizeMode: 'contain'
+    resizeMode: "contain",
   },
   buttonContainer: {
     position: "absolute",
     top: 0.67 * height,
     zIndex: 1,
     flexDirection: "row",
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   dislikeButton: {
-    height: width*0.17,
-    width: width*0.17,
+    height: width * 0.17,
+    width: width * 0.17,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
@@ -40,8 +40,8 @@ const styles = {
     elevation: 5,
   },
   likeButton: {
-    height: width*0.17,
-    width: width*0.17,
+    height: width * 0.17,
+    width: width * 0.17,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
@@ -66,7 +66,7 @@ const styles = {
     top: Dimensions.get("window").width * 0.85,
     zIndex: -10,
     alignSelf: "center",
-  }
+  },
 };
 
 export default styles;

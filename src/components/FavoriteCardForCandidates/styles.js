@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginTop: 11,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
   favoriteText: {
     fontWeight: "bold",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 4,
     paddingBottom: 10,
-    width: width*0.75
+    width: width * 0.75,
   },
   anecdoteText: {
     width: width * 0.8,

@@ -12,19 +12,15 @@ export default function AllThemesList() {
       <SafeAreaView style={styles.header}>
         <BackButton />
         <View style={{ marginTop: 65 }}>
-          <Text
-            style={styles.titleText}
-          >
-            Tous les thèmes
-          </Text>
+          <Text style={styles.titleText}>Tous les thèmes</Text>
         </View>
       </SafeAreaView>
 
       <FlatList
-      contentContainerStyle={{ paddingTop: 20, paddingBottom: 20 }}
-      data={themesCategories}
-      keyExtractor={(item) => item.id}
-      renderItem={({item}) => <ThemeCard theme={item} />}
+        contentContainerStyle={{ paddingTop: 20, paddingBottom: 20 }}
+        data={themesCategories}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ThemeCard theme={item} />}
       />
     </View>
   );

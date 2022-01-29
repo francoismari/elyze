@@ -13,7 +13,7 @@ export default function ByCandidateCard(props) {
 
   return (
     <TouchableOpacity
-    style={[styles.container, { backgroundColor: item.bgColor }]}
+      style={[styles.container, { backgroundColor: item.bgColor }]}
       onPress={() =>
         navigation.navigate("CandidateProfile", { id: item.idCandidate })
       }
@@ -23,13 +23,13 @@ export default function ByCandidateCard(props) {
         colors={[item.firstLinearColor, item.secondLinearColor]}
         start={{ x: 0.1, y: 0.1 }}
       > */}
-        <View style={styles.textContainer}>
-          <Text style={styles.firstnameText}>{item.firstname}</Text>
-          <Text style={styles.lastnameText}>{item.lastname}</Text>
-        </View>
-        <View>
-          <Image style={styles.cardImage} source={item.image} />
-        </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.firstnameText}>{item.firstname}</Text>
+        <Text style={styles.lastnameText}>{item.lastname}</Text>
+      </View>
+      <View>
+        <Image style={styles.cardImage} source={item.image} />
+      </View>
       {/* </LinearGradient> */}
     </TouchableOpacity>
   );

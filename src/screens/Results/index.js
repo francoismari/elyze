@@ -122,7 +122,8 @@ export default function Results() {
     // var dislikePercentageForCandidate =
     //   (dislikesForCandidate * 100) / (likesForCandidate + dislikesForCandidate);
 
-    var scoreForCandidate = likesPercentageForCandidate + likesForCandidate - dislikesForCandidate;
+    var scoreForCandidate =
+      likesPercentageForCandidate + likesForCandidate - dislikesForCandidate;
 
     // console.log('score: ', scoreForCandidate);
     if (isNaN(scoreForCandidate) || scoreForCandidate == "Infinity") {
@@ -133,56 +134,57 @@ export default function Results() {
   };
 
   const findPairs = (arr) => {
-    for (let i = 0 ; i < arr.length ; i++){
-      for (let j = 0 ; j < arr.length ; j++){
-        if (arr[i].score == arr[j].score){
-          if ((i != j) && !(arr[j].pair.includes(arr[i].id)) && !(arr[i].pair.includes(arr[j].id))){
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[i].score == arr[j].score) {
+          if (
+            i != j &&
+            !arr[j].pair.includes(arr[i].id) &&
+            !arr[i].pair.includes(arr[j].id)
+          ) {
             arr[i].pair.push(arr[j].id);
             arr[j].pair.push(arr[i].id);
           }
         }
       }
     }
-    return arr; 
-  }
+    return arr;
+  };
 
   const setPositions = (arr) => {
     // console.log("SETTING POSITIONS");
-    var minimum = null; 
-    for (let i = 0 ; i < arr.length ; i++){
-      if (arr[i].pair.length != 0){
-         minimum = Math.min.apply(Math, arr[i].pair);
+    var minimum = null;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].pair.length != 0) {
+        minimum = Math.min.apply(Math, arr[i].pair);
 
-        if (arr[i].id <= minimum){
-          arr[i].position = i + 1; 
-        }
-        else {
+        if (arr[i].id <= minimum) {
+          arr[i].position = i + 1;
+        } else {
           // console.log("minimum", minimum);
           // index de l'object avec id = minimum dans arr
-          var index = 0; 
-          for (let j = 0; j < arr.length ; j++){
-            if (arr[j].id == minimum){
-              index = j
+          var index = 0;
+          for (let j = 0; j < arr.length; j++) {
+            if (arr[j].id == minimum) {
+              index = j;
               break;
             }
           }
 
           // console.log("INDEX", index);
-          arr[i].position = arr[index].position; 
+          arr[i].position = arr[index].position;
         }
-      }
-      else {
-        if (i == 0){
-          arr[i].position = 1; 
-        }
-        else{
-          arr[i].position = arr[i-1].pair.length + arr[i-1].position + 1; 
+      } else {
+        if (i == 0) {
+          arr[i].position = 1;
+        } else {
+          arr[i].position = arr[i - 1].pair.length + arr[i - 1].position + 1;
         }
       }
     }
     // console.log("POSITIONS SET", arr);
-    return arr; 
-  }
+    return arr;
+  };
 
   const createFinalTable = (
     scoreFirst,
@@ -205,92 +207,92 @@ export default function Results() {
       {
         id: 1,
         score: scoreFirst,
-        pair: [], 
-        position: null 
+        pair: [],
+        position: null,
       },
       {
         id: 2,
         score: scoreSecond,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 3,
         score: scoreThird,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 4,
         score: scoreFourth,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 5,
         score: scoreFifth,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 6,
         score: scoreSix,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 7,
         score: scoreSeven,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 8,
         score: scoreEight,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 9,
         score: scoreNine,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 10,
         score: scoreTen,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 11,
         score: scoreEleven,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 12,
         score: scoreTwelve,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 13,
         score: scoreThirteen,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 14,
         score: scoreFourteen,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 15,
         score: scoreFiveteen,
         pair: [],
-        position: null 
+        position: null,
       },
     ];
 
@@ -365,9 +367,9 @@ export default function Results() {
         const firstPodiumDetails = findCandidateDetails(finalTableSorted[0].id);
         setPodiumFirstDetails(firstPodiumDetails);
 
-        setFirstNumeroPodium(finalTableSorted[0].position)
-        setSecondNumeroPodium(finalTableSorted[1].position)
-        setThirdNumeroPodium(finalTableSorted[2].position)
+        setFirstNumeroPodium(finalTableSorted[0].position);
+        setSecondNumeroPodium(finalTableSorted[1].position);
+        setThirdNumeroPodium(finalTableSorted[2].position);
 
         const secondPodiumDetails = findCandidateDetails(
           finalTableSorted[1].id
@@ -411,7 +413,6 @@ export default function Results() {
 
     console.log(hasValidateTips);
   }, []);
-
 
   const renderCandidateRankCard = (item, index) => {
     // Récupérer les infos sur le candidat
@@ -591,7 +592,9 @@ export default function Results() {
                     ]}
                   >
                     <Text style={{ fontSize: 12, fontWeight: "bold" }}>#</Text>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{secondNumeroPodium}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {secondNumeroPodium}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -671,7 +674,9 @@ export default function Results() {
                     ]}
                   >
                     <Text style={{ fontSize: 12, fontWeight: "bold" }}>#</Text>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{firstNumeroPodium}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {firstNumeroPodium}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -751,7 +756,9 @@ export default function Results() {
                     ]}
                   >
                     <Text style={{ fontSize: 12, fontWeight: "bold" }}>#</Text>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{thirdNumeroPodium}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {thirdNumeroPodium}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>

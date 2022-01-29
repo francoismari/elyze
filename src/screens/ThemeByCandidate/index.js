@@ -53,7 +53,7 @@ export default function ThemeByCandidate({ route }) {
       graphqlOperation(getPropositionsForThemeCandidateQuery)
     ).then((res) => {
       // console.log(res);
-      var propsForThemeAndCandidate = res.data.listPropositions.items
+      var propsForThemeAndCandidate = res.data.listPropositions.items;
       propsForThemeAndCandidate.sort((a, b) => a.title.localeCompare(b.title));
       setPropositionListForCandidate(propsForThemeAndCandidate);
     });
@@ -112,7 +112,7 @@ export default function ThemeByCandidate({ route }) {
     );
   } else {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size={"large"} />
       </View>
     );

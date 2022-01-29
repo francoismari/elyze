@@ -12,7 +12,7 @@ import ByCandidateCard from "../../components/ByCandidateCard";
 import PropositionThemeCard from "../../components/PropositionThemeCard";
 import styles from "./styles";
 import ResponsiveTitle from "../../components/ResponsiveTitle";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Propositions() {
   const navigation = useNavigation();
@@ -27,9 +27,9 @@ export default function Propositions() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <ScrollView>
-        <ResponsiveTitle title={'Parcourir les propositions'} />
+        <ResponsiveTitle title={"Parcourir les propositions"} />
 
         <View style={styles.lineContainer}>
           <PropositionThemeCard

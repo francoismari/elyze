@@ -36,11 +36,7 @@ export default function ThemeCard(props) {
             size={80}
           />
         ) : item.iconType == "FontAwesome" ? (
-          <FontAwesome
-            color={item.darkColor}
-            name={item.iconTitle}
-            size={80}
-          />
+          <FontAwesome color={item.darkColor} name={item.iconTitle} size={80} />
         ) : item.iconType == "FontAwesome5" ? (
           <FontAwesome5
             color={item.darkColor}

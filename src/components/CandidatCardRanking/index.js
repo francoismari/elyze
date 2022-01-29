@@ -3,8 +3,7 @@ import { View, Text, Image } from "react-native";
 import styles from "./styles";
 
 export default function CandidatCardRanking(props) {
-
-    const {indexRanking, name, pourcentage, image} = props;
+  const { indexRanking, name, pourcentage, image } = props;
 
   return (
     <View style={styles.container}>
@@ -16,8 +15,10 @@ export default function CandidatCardRanking(props) {
         <Text style={styles.candidateNameText}>{name}</Text>
       </View>
       <View style={styles.bottomCardContainer}>
-          <Text style={styles.proportionText}>D'accord avec {pourcentage}% des propositions</Text>
-            <Image source={image} style={styles.candidateImage} />
+        <Text style={styles.proportionText}>
+          D'accord avec {pourcentage}% des propositions
+        </Text>
+        <Image source={image} style={styles.candidateImage} />
       </View>
     </View>
   );

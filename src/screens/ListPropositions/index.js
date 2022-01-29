@@ -60,7 +60,6 @@ export default function ListPropositions({ route }) {
     }`;
 
     await API.graphql(graphqlOperation(getPropositionsForTheme)).then((res) => {
-
       var propsForTheme = res.data.listPropositions.items;
       propsForTheme.sort((a, b) => a.title.localeCompare(b.title));
 
@@ -83,30 +82,35 @@ export default function ListPropositions({ route }) {
           iconTitle={themeDetails[0].iconTitle}
         />
         <View style={{ flex: 1 }}>
-          {loaded ?
-          <FlatList
-            data={propositions}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("PropositionDetails", {
-                    title: item.title,
-                    theme: item.theme,
-                    articleContent: item.articleContent,
-                    idCandidat: item.idCandidat,
-                    showCandidateInfo: true,
-                  })
-                }
-              >
-                <PropositionListCard propositionID={item.id} />
-              </TouchableOpacity>
-            )}
-          />
-          : <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <ActivityIndicator size={'large'} style={{alignSelf: 'center'}} />
-          </View> }
+          {loaded ? (
+            <FlatList
+              data={propositions}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("PropositionDetails", {
+                      title: item.title,
+                      theme: item.theme,
+                      articleContent: item.articleContent,
+                      idCandidat: item.idCandidat,
+                      showCandidateInfo: true,
+                    })
+                  }
+                >
+                  <PropositionListCard propositionID={item.id} />
+                </TouchableOpacity>
+              )}
+            />
+          ) : (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <ActivityIndicator
+                size={"large"}
+                style={{ alignSelf: "center" }}
+              />
+            </View>
+          )}
         </View>
       </View>
     );

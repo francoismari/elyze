@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   closeButton: {
     position: "absolute",
@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
   closeModalText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: 'white'
+    color: "white",
   },
   themeContainer: {
-    height: width*0.09,
+    height: width * 0.09,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 27,
@@ -47,26 +47,26 @@ const styles = StyleSheet.create({
 
     elevation: 2,
     borderRadius: 10,
-    marginBottom: 18
+    marginBottom: 18,
   },
-  themeTitleText: {
-    textTransform: 'uppercase'
+  themeTitleText: {
+    textTransform: "uppercase",
   },
   candidateDetailsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
   },
   propositionTitle: {
-      fontSize: width*0.06,
-      fontWeight: 'bold',
-      marginBottom: 12
+    fontSize: width * 0.06,
+    fontWeight: "bold",
+    marginBottom: 12,
   },
 
   /* Style de la description (HTML) */
   p: {
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
 
 export default styles;

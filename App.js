@@ -22,10 +22,7 @@ import {
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
-import {
-  FontAwesome5,
-  Octicons,
-} from "@expo/vector-icons";
+import { FontAwesome5, Octicons } from "@expo/vector-icons";
 import colors from "./assets/colors/colors";
 import * as Haptics from "expo-haptics";
 
@@ -246,7 +243,6 @@ export default function App() {
     const toggleDoneSetUp = async () => {
       if (hasAccepted) {
         try {
-
           await AsyncStorage.setItem("@isSetUp2", "true").then(async () => {
             // Vérifier si l'utilisateur à accepté les CGU et l'ajouter à AWS
             const newUserRequest = `mutation addNewUser {
@@ -522,7 +518,18 @@ export default function App() {
                   </TouchableOpacity>
                 </View>
 
-                <Text style={{paddingHorizontal: 30, textAlign: 'center', color: 'white', fontWeight: '500', marginTop: 20}}>Aucune donnée personnelle n'est collectée par ELYZE lors de l'utilisation de l'app 🕵️</Text>
+                <Text
+                  style={{
+                    paddingHorizontal: 30,
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "500",
+                    marginTop: 20,
+                  }}
+                >
+                  Aucune donnée personnelle n'est collectée par ELYZE lors de
+                  l'utilisation de l'app 🕵️
+                </Text>
 
                 <TouchableOpacity
                   onPress={() => toggleDoneSetUp()}
