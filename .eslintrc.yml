@@ -1,0 +1,23 @@
+env:
+  browser: true
+  es2021: true
+  react-native/react-native: true
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: latest
+  sourceType: module
+plugins:
+  - react
+  - react-native
+rules:
+  react/prop-types: warn
+  react/no-unescaped-entities: warn
+  react/jsx-no-duplicate-props: warn
+  no-unused-vars: warn
+  no-redeclare: warn
+  no-dupe-keys: warn
+  no-undef: warn

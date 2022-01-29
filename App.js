@@ -74,7 +74,7 @@ const TabNavigator = () => (
         },
       })}
       options={{
-        tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({ color }) => (
           <FontAwesome5 name={"vote-yea"} color={color} size={35} />
         ),
       }}
@@ -88,7 +88,7 @@ const TabNavigator = () => (
         },
       })}
       options={{
-        tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({ color }) => (
           <FontAwesome5 name={"award"} color={color} size={35} />
         ),
       }}
@@ -102,7 +102,7 @@ const TabNavigator = () => (
         },
       })}
       options={{
-        tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({ color }) => (
           <Octicons name={"tasklist"} color={color} size={35} />
         ),
       }}
@@ -481,7 +481,6 @@ export default function App() {
                     marginHorizontal: 60,
                     flexDirection: "row",
                     marginTop: 10,
-                    alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
