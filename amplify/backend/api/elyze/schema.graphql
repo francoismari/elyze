@@ -1,0 +1,25 @@
+type newUserInfo @model @auth(
+    rules: [
+      { allow: public, queries: [get], mutations: [create, update] }
+      { allow: owner, queries: [list] }
+    ]
+  ) {
+  id: ID!
+}
+
+type propositions @model @auth(
+    rules: [
+      { allow: public, operations: [read] },
+      { allow: groups, groups: ["Admin"], operations: [create, update, delete, read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  idTheme: Int!
+  articleContent: String!
+  source: String!
+  idCandidat: Int!
+  toBeShownFirst: Int
+  toShowOnSwipe: Int
+  firstPropositions: Int
+}
