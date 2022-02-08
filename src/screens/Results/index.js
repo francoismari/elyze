@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Dimensions,
   RefreshControl,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../assets/colors/colors";
@@ -83,35 +84,47 @@ export default function Results() {
   };
 
   const getScoreFor = async (idCandidat) => {
-    // const candidateVariable = "@score_candidat_" + idCandidat;
-    // const dislikeCandidateVariable = "@scoreDislike_candidat_" + idCandidat;
+    const candidateVariable = "@score_candidat_" + idCandidat;
+    const dislikeCandidateVariable = "@scoreDislike_candidat_" + idCandidat;
 
-    const candidateVariable = "@likeListCandidate_" + idCandidat;
-    const dislikeCandidateVariable = "@dislikeListCandidate_" + idCandidat;
+    // const superLikecandidateVariable = "@likeListCandidate_" + idCandidat;
+    // const candidateVariable = "@superLikeListCandidate_" + idCandidat;
+    // const dislikeCandidateVariable = "@dislikeListCandidate_" + idCandidat;
 
+    // var superLikesForCandidate = await AsyncStorage.getItem(superLikecandidateVariable);
     var likesForCandidate = await AsyncStorage.getItem(candidateVariable);
     var dislikesForCandidate = await AsyncStorage.getItem(
       dislikeCandidateVariable
     );
 
+    // superLikesForCandidate = JSON.parse(likesForCandidate);
+
+    // superLikesForCandidate = [...new Set(superLikesForCandidate)];
+
+    // if (superLikesForCandidate == null) {
+    //   superLikesForCandidate = 0;
+    // } else {
+    //   superLikesForCandidate = superLikesForCandidate.length;
+    // }
+
     likesForCandidate = JSON.parse(likesForCandidate);
 
-    likesForCandidate = [...new Set(likesForCandidate)];
+    // likesForCandidate = [...new Set(likesForCandidate)];
 
-    if (likesForCandidate == null) {
-      likesForCandidate = 0;
-    } else {
-      likesForCandidate = likesForCandidate.length;
-    }
+    // if (likesForCandidate == null) {
+    //   likesForCandidate = 0;
+    // } else {
+    //   likesForCandidate = likesForCandidate.length;
+    // }
 
     dislikesForCandidate = JSON.parse(dislikesForCandidate);
 
-    dislikesForCandidate = [...new Set(dislikesForCandidate)];
-    if (dislikesForCandidate == null) {
-      dislikesForCandidate = 0;
-    } else {
-      dislikesForCandidate = dislikesForCandidate.length;
-    }
+    // dislikesForCandidate = [...new Set(dislikesForCandidate)];
+    // if (dislikesForCandidate == null) {
+    //   dislikesForCandidate = 0;
+    // } else {
+    //   dislikesForCandidate = dislikesForCandidate.length;
+    // }
 
     const likesAndDislikesNumber =
       parseInt(likesForCandidate) + parseInt(dislikesForCandidate);
@@ -122,67 +135,69 @@ export default function Results() {
     // var dislikePercentageForCandidate =
     //   (dislikesForCandidate * 100) / (likesForCandidate + dislikesForCandidate);
 
-    var scoreForCandidate = likesPercentageForCandidate + likesForCandidate - dislikesForCandidate;
+    var scoreForCandidate =
+      likesPercentageForCandidate + likesForCandidate - dislikesForCandidate;
 
-    // console.log('score: ', scoreForCandidate);
+    // console.log("score: ", scoreForCandidate);
     if (isNaN(scoreForCandidate) || scoreForCandidate == "Infinity") {
-      return -1;
+      return -1000000000000;
     } else {
       return parseInt(scoreForCandidate);
     }
   };
 
   const findPairs = (arr) => {
-    for (let i = 0 ; i < arr.length ; i++){
-      for (let j = 0 ; j < arr.length ; j++){
-        if (arr[i].score == arr[j].score){
-          if ((i != j) && !(arr[j].pair.includes(arr[i].id)) && !(arr[i].pair.includes(arr[j].id))){
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[i].score == arr[j].score) {
+          if (
+            i != j &&
+            !arr[j].pair.includes(arr[i].id) &&
+            !arr[i].pair.includes(arr[j].id)
+          ) {
             arr[i].pair.push(arr[j].id);
             arr[j].pair.push(arr[i].id);
           }
         }
       }
     }
-    return arr; 
-  }
+    return arr;
+  };
 
   const setPositions = (arr) => {
     // console.log("SETTING POSITIONS");
-    var minimum = null; 
-    for (let i = 0 ; i < arr.length ; i++){
-      if (arr[i].pair.length != 0){
-         minimum = Math.min.apply(Math, arr[i].pair);
+    var minimum = null;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].pair.length != 0) {
+        minimum = Math.min.apply(Math, arr[i].pair);
 
-        if (arr[i].id <= minimum){
-          arr[i].position = i + 1; 
-        }
-        else {
+        if (arr[i].id <= minimum) {
+          arr[i].position = i + 1;
+        } else {
           // console.log("minimum", minimum);
           // index de l'object avec id = minimum dans arr
-          var index = 0; 
-          for (let j = 0; j < arr.length ; j++){
-            if (arr[j].id == minimum){
-              index = j
+          var index = 0;
+          for (let j = 0; j < arr.length; j++) {
+            if (arr[j].id == minimum) {
+              index = j;
               break;
             }
           }
 
           // console.log("INDEX", index);
-          arr[i].position = arr[index].position; 
+          arr[i].position = arr[index].position;
         }
-      }
-      else {
-        if (i == 0){
-          arr[i].position = 1; 
-        }
-        else{
-          arr[i].position = arr[i-1].pair.length + arr[i-1].position + 1; 
+      } else {
+        if (i == 0) {
+          arr[i].position = 1;
+        } else {
+          arr[i].position = arr[i - 1].pair.length + arr[i - 1].position + 1;
         }
       }
     }
     // console.log("POSITIONS SET", arr);
-    return arr; 
-  }
+    return arr;
+  };
 
   const createFinalTable = (
     scoreFirst,
@@ -191,7 +206,6 @@ export default function Results() {
     scoreFourth,
     scoreFifth,
     scoreSix,
-    scoreSeven,
     scoreEight,
     scoreNine,
     scoreTen,
@@ -199,98 +213,99 @@ export default function Results() {
     scoreTwelve,
     scoreThirteen,
     scoreFourteen,
-    scoreFiveteen
+    scoreFiveteen,
+    scoreSixteen
   ) => {
     var finalScoreForCandidates = [
       {
         id: 1,
         score: scoreFirst,
-        pair: [], 
-        position: null 
+        pair: [],
+        position: null,
       },
       {
         id: 2,
         score: scoreSecond,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 3,
         score: scoreThird,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 4,
         score: scoreFourth,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 5,
         score: scoreFifth,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 6,
         score: scoreSix,
         pair: [],
-        position: null 
-      },
-      {
-        id: 7,
-        score: scoreSeven,
-        pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 8,
         score: scoreEight,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 9,
         score: scoreNine,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 10,
         score: scoreTen,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 11,
         score: scoreEleven,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 12,
         score: scoreTwelve,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 13,
         score: scoreThirteen,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 14,
         score: scoreFourteen,
         pair: [],
-        position: null 
+        position: null,
       },
       {
         id: 15,
         score: scoreFiveteen,
         pair: [],
-        position: null 
+        position: null,
+      },
+      {
+        id: 16,
+        score: scoreSixteen,
+        pair: [],
+        position: null,
       },
     ];
 
@@ -309,7 +324,6 @@ export default function Results() {
       getScoreFor(4),
       getScoreFor(5),
       getScoreFor(6),
-      getScoreFor(7),
       getScoreFor(8),
       getScoreFor(9),
       getScoreFor(10),
@@ -318,6 +332,7 @@ export default function Results() {
       getScoreFor(13),
       getScoreFor(14),
       getScoreFor(15),
+      getScoreFor(16),
     ]).then((response) => {
       // console.log("Réponse du tableau : ", response);
       if (
@@ -365,9 +380,9 @@ export default function Results() {
         const firstPodiumDetails = findCandidateDetails(finalTableSorted[0].id);
         setPodiumFirstDetails(firstPodiumDetails);
 
-        setFirstNumeroPodium(finalTableSorted[0].position)
-        setSecondNumeroPodium(finalTableSorted[1].position)
-        setThirdNumeroPodium(finalTableSorted[2].position)
+        setFirstNumeroPodium(finalTableSorted[0].position);
+        setSecondNumeroPodium(finalTableSorted[1].position);
+        setThirdNumeroPodium(finalTableSorted[2].position);
 
         const secondPodiumDetails = findCandidateDetails(
           finalTableSorted[1].id
@@ -409,9 +424,8 @@ export default function Results() {
       console.log(e);
     }
 
-    console.log(hasValidateTips);
+    // console.log(hasValidateTips);
   }, []);
-
 
   const renderCandidateRankCard = (item, index) => {
     // Récupérer les infos sur le candidat
@@ -437,7 +451,7 @@ export default function Results() {
         quality: 1.0,
       });
 
-      console.log(uri);
+      // console.log(uri);
 
       if (!(await Sharing.isAvailableAsync())) {
         alert(
@@ -496,7 +510,13 @@ export default function Results() {
         {/* Bouton partage des résultats */}
         {positionsPassedNumber > 0 ? (
           <TouchableOpacity
-            onPress={() => shareImage()}
+            onPress={() =>
+              navigation.navigate("Share", {
+                first: podiumFirstDetails[0],
+                second: podiumSecondDetails[0],
+                third: podiumThirdDetails[0],
+              })
+            }
             style={{
               position: "absolute",
               top: -10,
@@ -591,7 +611,9 @@ export default function Results() {
                     ]}
                   >
                     <Text style={{ fontSize: 12, fontWeight: "bold" }}>#</Text>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{secondNumeroPodium}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {secondNumeroPodium}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -671,7 +693,9 @@ export default function Results() {
                     ]}
                   >
                     <Text style={{ fontSize: 12, fontWeight: "bold" }}>#</Text>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{firstNumeroPodium}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {firstNumeroPodium}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -751,7 +775,9 @@ export default function Results() {
                     ]}
                   >
                     <Text style={{ fontSize: 12, fontWeight: "bold" }}>#</Text>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{thirdNumeroPodium}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {thirdNumeroPodium}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -791,7 +817,7 @@ export default function Results() {
             />
             <Text style={styles.passedPropositionsText}>
               Sur {Math.round(positionsPassedNumber)} propositions | Continue à
-              swiper pour affiner tes résultats
+              voter pour affiner tes résultats
             </Text>
             {positionsPassedNumber > 0 ? (
               <View
@@ -838,7 +864,7 @@ export default function Results() {
                     fontSize: 25,
                   }}
                 >
-                  Continue à swiper pour découvrir les candidats qui te
+                  Continue à voter pour découvrir les candidats qui te
                   correspondent
                 </Text>
               </View>
@@ -932,7 +958,7 @@ export default function Results() {
               marginBottom: 10,
             }}
           >
-            Plus que quelques swipes !
+            Plus que quelques votes !
           </Text>
           <Text
             style={{
