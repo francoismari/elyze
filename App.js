@@ -64,10 +64,14 @@ const TabNavigator = () => (
       tabBarShowLabel: false,
       headerShown: false,
     }}
+    accessibilityRole="menu"
   >
     <Tab.Screen
       name={"Home"}
       component={Home}
+      accessible={true}
+      accessibilityLabel="Accueil"
+      accessibilityRole="menuitem"
       listeners={() => ({
         tabPress: () => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -82,6 +86,9 @@ const TabNavigator = () => (
     <Tab.Screen
       name={"Resultats"}
       component={Results}
+      accessible={true}
+      accessibilityLabel="Résultats"
+      accessibilityRole="menuitem"
       listeners={() => ({
         tabPress: () => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -96,6 +103,9 @@ const TabNavigator = () => (
     <Tab.Screen
       name={"Propositions"}
       component={Propositions}
+      accessible={true}
+      accessibilityLabel="Propositions"
+      accessibilityRole="menuitem"
       listeners={() => ({
         tabPress: () => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);

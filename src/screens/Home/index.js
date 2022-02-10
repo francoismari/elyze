@@ -582,6 +582,9 @@ export default function Levels() {
               {/* Bouton réglage */}
               <TouchableOpacity
                 onPress={() => navigation.navigate("Settings")}
+                accessible={true}
+                accessibilityLabel="Paramètres"
+                accessibilityRole="button"
                 style={{
                   position: "absolute",
                   top: -10,
@@ -724,6 +727,8 @@ export default function Levels() {
                     animateOverlayLabelsOpacity
                     animateCardOpacity
                     backgroundColor={"transparent"}
+                    accessible={true}
+                    accessibilityHint="Swipez vers la gauche si vous êtes contre, vers la droite si vous êtes pour, et vers le bas si vous ne vous prononcez pas"
                     overlayLabels={{
                       left: {
                         title: "CONTRE",
@@ -788,6 +793,9 @@ export default function Levels() {
                     onPress={() => {
                       swipeRef.current.swipeLeft();
                     }}
+                    accessible={true}
+                    accessibleLabel="Contre"
+                    accessibleRole="button"
                   >
                     <FontAwesome
                       name={"times"}
@@ -801,6 +809,9 @@ export default function Levels() {
                     onPress={() => {
                       swipeRef.current.swipeBottom();
                     }}
+                    accessible={true}
+                    accessibleLabel="Je ne me prononce pas"
+                    accessibleRole="button"
                   >
                     <Text
                       style={{
@@ -816,6 +827,9 @@ export default function Levels() {
                     onPress={() => {
                       swipeRef.current.swipeRight();
                     }}
+                    accessible={true}
+                    accessibleLabel="Pour"
+                    accessibleRole="button"
                   >
                     <FontAwesome
                       name={"heart"}
