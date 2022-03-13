@@ -20,6 +20,7 @@ export default function ResultCandidateCard(props) {
   const [loaded, setLoaded] = useState(false);
   const [positionsPassed, setPositionsPassed] = useState(0);
   const [candidateScore, setCandidateScore] = useState(0);
+  const [swipedPropositions, setSwipedPropositions] = useState(0);
 
   const [candidateTotalSwipes, setCandidateTotalSwipes] = useState(0);
 
@@ -98,8 +99,50 @@ export default function ResultCandidateCard(props) {
     }
 
     const getPourcentageForCandidate = async (idCandidat) => {
-      const candidateVariable = "@likeListCandidate_" + idCandidat;
-      const dislikeCandidateVariable = "@dislikeListCandidate_" + idCandidat;
+      const candidateVariable = "@score_candidat_" + idCandidat;
+      const dislikeCandidateVariable = "@scoreDislike_candidat_" + idCandidat;
+
+      const likeCandidateVariablePassed = "@likeListCandidate_" + idCandidat;
+      const superLikeCandidateVariablePassed =
+        "@superLikeListCandidate_" + idCandidat;
+      const dislikeCandidateVariablePassed =
+        "@dislikeListCandidate_" + idCandidat;
+
+      try {
+        var likesForCandidatePassed = await AsyncStorage.getItem(
+          likeCandidateVariablePassed
+        );
+        likesForCandidatePassed = JSON.parse(likesForCandidatePassed);
+        likesForCandidatePassed = likesForCandidatePassed.length;
+      } catch (e) {
+        var likesForCandidatePassed = null;
+      }
+
+      try {
+        var superlikesForCandidatePassed = await AsyncStorage.getItem(
+          superLikeCandidateVariablePassed
+        );
+        superlikesForCandidatePassed = JSON.parse(superlikesForCandidatePassed);
+        superlikesForCandidatePassed = superlikesForCandidatePassed.length;
+      } catch (e) {
+        var superlikesForCandidatePassed = null;
+      }
+
+      try {
+        var dislikesForCandidatePassed = await AsyncStorage.getItem(
+          dislikeCandidateVariablePassed
+        );
+        dislikesForCandidatePassed = JSON.parse(dislikesForCandidatePassed);
+        dislikesForCandidatePassed = dislikesForCandidatePassed.length;
+      } catch (e) {
+        var dislikesForCandidatePassed = null;
+      }
+
+      setSwipedPropositions(
+        likesForCandidatePassed +
+          superlikesForCandidatePassed +
+          dislikesForCandidatePassed
+      );
 
       var likesForCandidate = await AsyncStorage.getItem(candidateVariable);
       var dislikesForCandidate = await AsyncStorage.getItem(
@@ -107,33 +150,63 @@ export default function ResultCandidateCard(props) {
       );
 
       likesForCandidate = JSON.parse(likesForCandidate);
-      if (likesForCandidate == null) {
-        likesForCandidate = 0;
-      } else {
-        likesForCandidate = likesForCandidate.length;
-      }
 
       dislikesForCandidate = JSON.parse(dislikesForCandidate);
-      if (dislikesForCandidate == null) {
-        dislikesForCandidate = 0;
-      } else {
-        dislikesForCandidate = dislikesForCandidate.length;
-      }
 
       const likesAndDislikesNumber =
         parseInt(likesForCandidate) + parseInt(dislikesForCandidate);
 
-      var likesPercentageForCandidate =
-        (likesForCandidate / likesAndDislikesNumber) * 100;
+      var likesPercentageForCandidate = likesForCandidate - dislikesForCandidate;
+      // (likesForCandidate / (likesForCandidatePassed +
+      //   superlikesForCandidatePassed +
+      //   dislikesForCandidatePassed)) * 50;
 
       var scoreForCandidate = likesPercentageForCandidate;
-      return round(scoreForCandidate);
+
+      if (isNaN(scoreForCandidate) || scoreForCandidate == "Infinity") {
+        return -1000000000000;
+      } else {
+        return parseInt(scoreForCandidate);
+      }
+
+      // const candidateVariable = "@likeListCandidate_" + idCandidat;
+      // const dislikeCandidateVariable = "@dislikeListCandidate_" + idCandidat;
+
+      // var likesForCandidate = await AsyncStorage.getItem(candidateVariable);
+      // var dislikesForCandidate = await AsyncStorage.getItem(
+      //   dislikeCandidateVariable
+      // );
+
+      // likesForCandidate = JSON.parse(likesForCandidate);
+      // if (likesForCandidate == null) {
+      //   likesForCandidate = 0;
+      // } else {
+      //   likesForCandidate = likesForCandidate.length;
+      // }
+
+      // dislikesForCandidate = JSON.parse(dislikesForCandidate);
+      // if (dislikesForCandidate == null) {
+      //   dislikesForCandidate = 0;
+      // } else {
+      //   dislikesForCandidate = dislikesForCandidate.length;
+      // }
+
+      // const likesAndDislikesNumber =
+      //   parseInt(likesForCandidate) + parseInt(dislikesForCandidate);
+
+      // var likesPercentageForCandidate =
+      //   (likesForCandidate / likesAndDislikesNumber) * 100;
+
+      // var scoreForCandidate = likesPercentageForCandidate;
+      // return round(scoreForCandidate);
     };
     const currentPourcentage = await getPourcentageForCandidate(
       props.idCandidat
     );
     setCandidatePourcentage(currentPourcentage);
   }, [props.item.isFocused, isFocused, props.item.score]);
+
+  // console.log("score pour : " + candidateDetails[0].id + " : ", candidateScore);
 
   if (loaded) {
     return (
@@ -155,7 +228,6 @@ export default function ResultCandidateCard(props) {
           },
         ]}
       >
-
         <View style={[styles.candidateDetailsContainer, { marginTop: 10 }]}>
           <Text></Text>
           <Text style={styles.hashtagPositionText}>#</Text>
@@ -170,19 +242,21 @@ export default function ResultCandidateCard(props) {
           </Text>
         </View>
         <View style={styles.bottomCardContainer}>
-          {candidateScore == -1 ? (
+          {candidateScore == -1000000000000 ? (
             <Text style={styles.agreePourcentageText} numberOfLines={2}>
               Continue à swiper pour découvrir le score 🗳
             </Text>
           ) : (
             <Text style={styles.agreePourcentageText} numberOfLines={2}>
-              D'accord avec
-              {candidateScore == 0
+              <Text style={{fontWeight: '600'}}>Score : {candidatePourcentage}</Text> | {swipedPropositions} propositions passées
+              {/* {
+              candidateScore == 0
                 ? " 0"
                 : candidateScore > 100
                 ? " 100"
-                : " " + candidatePourcentage}
-              % de ses propositions
+                : " " + 
+                candidatePourcentage} */}
+              {/* % de ses propositions */}
             </Text>
           )}
           <Image

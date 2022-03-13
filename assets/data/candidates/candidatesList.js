@@ -11,6 +11,7 @@ const candidatesList = [
         groupe: 'La République en marche',
         firstLinearColor: "#2c3e50",
         secondLinearColor: "#4ca1af",
+        work: 'Président de la République',
         favorites: [
             {
                 id: 1,
@@ -57,6 +58,7 @@ const candidatesList = [
         groupe: 'Parti Socialiste',
         firstLinearColor: "#904e95",
         secondLinearColor: "#e96443",
+        work: 'Maire de Paris',
         favorites: [
             {
                 id: 1,
@@ -103,6 +105,7 @@ const candidatesList = [
         groupe: 'EELV',
         firstLinearColor: "#56ab2f",
         secondLinearColor: "#a8e063",
+        work: 'Député européen',
         favorites: [
             {
                 id: 1,
@@ -143,6 +146,7 @@ const candidatesList = [
         groupe: 'La France Insoumise',
         firstLinearColor: "#932525",
         secondLinearColor: "#e74c3c",
+        work: 'Député français',
         favorites: [
             {
                 id: 1,
@@ -189,6 +193,7 @@ const candidatesList = [
         groupe: 'Lutte ouvrière',
         firstLinearColor: "#cb2d3e",
         secondLinearColor: "#ef473a",
+        work: 'Professeure',
         favorites: [
             {
                 id: 1,
@@ -224,52 +229,6 @@ const candidatesList = [
         studies: "Études d’économie-gestion, obtention du CAPES et de l’agrégation d’économie et de gestion",
     },
     {
-        id: 6,
-        firstname: 'Florian',
-        lastname: 'Philippot',
-        bgColor: '#737FA5',
-        age: 40,
-        image: require('../../images/candidates/philippot/philippot-fixe.png'),
-        imageProfile: require('../../images/candidates/philippot/philippot-profile.png'),
-        pictureCredits: "© Bertrand GUAY/AFP",
-        groupe: 'Les Patriotes',
-        firstLinearColor: "#283a51",
-        secondLinearColor: "#4b79a1",
-        favorites: [
-            {
-                id: 1,
-                anecdote: true,
-                anecdoteEmoji: '👨‍👩‍👦‍👦',
-                anecdoteText: 'On ne choisit pas sa famille : son frère, Damien Philippot, travaille pour la campagne d’Eric Zemmour',
-            },
-            {
-                id: 2,
-                anecdote: true,
-                anecdoteEmoji: '🎶',
-                anecdoteText: 'Son chanteur préféré : Brassens',
-            },
-            {
-                id: 3,
-                anecdote: true,
-                anecdoteEmoji: '🎮',
-                anecdoteText: 'Aime jouer à Mario Kart : accepté à l’ENA, il sèche les cours pour participer à des courses de voiture',
-            },
-            {
-                id: 4,
-                anecdote: true,
-                anecdoteEmoji: '🇫🇷',
-                anecdoteText: 'Son passé : il a longtemps été le numéro 2 du Front National avant de quitter le parti après la défaite de 2017',
-            },
-            {
-                id: 5,
-                anecdote: true,
-                anecdoteEmoji: '🤫',
-                anecdoteText: 'Il aurait été rédacteur pour le journal Marianne sous pseudonyme dans sa jeunesse',
-            },
-        ],
-        studies: "HEC, Université Paris Dauphine, ENA",
-    },
-    {
         id: 8,
         firstname: 'Valérie',
         lastname: 'Pécresse',
@@ -281,6 +240,7 @@ const candidatesList = [
         groupe: 'Les Républicains',
         firstLinearColor: "#3a6073",
         secondLinearColor: "#3a7bd5",
+        work: 'Présidente du Conseil régional d’Île-de-France',
         favorites: [
             {
                 id: 1,
@@ -327,6 +287,7 @@ const candidatesList = [
         groupe: 'Nouveau Parti anticapitaliste',
         firstLinearColor: "#7a2828",
         secondLinearColor: "#a73737",
+        work: 'Conseiller métropolitain et municipale',
         favorites: [
             {
                 id: 1,
@@ -373,6 +334,7 @@ const candidatesList = [
         groupe: 'Résistons !',
         firstLinearColor: "#2c3e50",
         secondLinearColor: "#3498db",
+        work: 'Député français',
         favorites: [
             {
                 id: 1,
@@ -419,6 +381,7 @@ const candidatesList = [
         groupe: 'Debout la France !',
         firstLinearColor: "#457fca",
         secondLinearColor: "#5691c8",
+        work: 'Député français',
         favorites: [
             {
                 id: 1,
@@ -465,6 +428,7 @@ const candidatesList = [
         groupe: 'Rassemblement National',
         firstLinearColor: "#525252",
         secondLinearColor: "#3d72b4",
+        work: 'Députée française',
         favorites: [
             {
                 id: 1,
@@ -511,6 +475,7 @@ const candidatesList = [
         groupe: 'Reconquête',
         firstLinearColor: "#000428",
         secondLinearColor: "#004e92",
+        work: 'Ancien journaliste',
         favorites: [
             {
                 id: 1,
@@ -546,46 +511,6 @@ const candidatesList = [
         studies: "Sciences Po Paris",
     },
     {
-        id: 14,
-        firstname: 'François',
-        lastname: 'Asselineau',
-        bgColor: '#3A7E86',
-        age: 64,
-        image: require('../../images/candidates/asselineau/asselineau-fixe.png'),
-        imageProfile: require('../../images/candidates/asselineau/asselineau-profile.png'),
-        groupe: "Union populaire républicaine",
-        pictureCredits: "© Bertrand GUAY / AFP",
-        firstLinearColor: "#556270",
-        secondLinearColor: "#4ecdc4",
-        favorites: [
-            {
-                id: 1,
-                anecdote: true,
-                anecdoteEmoji: "📹",
-                anecdoteText: "Candidat youtubeur : il totalise plus de 11 millions de vues sur sa chaîne YouTube",
-            },
-            {
-                id: 2,
-                anecdote: true,
-                anecdoteEmoji: "🇯🇵",
-                anecdoteText: "Il parle couramment le japonais",
-            },
-            {
-                id: 3,
-                anecdote: true,
-                anecdoteEmoji: "🇫🇷",
-                anecdoteText: "Il fonde son parti en 2007 : l’UPR (Union Populaire Républicaine)",
-            },
-            {
-                id: 4,
-                anecdote: true,
-                anecdoteEmoji: "🌐",
-                anecdoteText: "Il a créé sa page Wikipédia lui-même en 2007",
-            }
-        ],
-        studies: "HEC, ENA",
-    },
-    {
         id: 15,
         firstname: 'Fabien',
         lastname: 'Roussel',
@@ -597,6 +522,7 @@ const candidatesList = [
         pictureCredits: "© Alain Jocard / AFP",
         firstLinearColor: "#e73827",
         secondLinearColor: "#f85032",
+        work: 'Secrétaire national du Parti communiste français',
         favorites: [
             {
                 id: 1,
@@ -630,52 +556,6 @@ const candidatesList = [
             },
         ],
         studies: "CFPJ (études de journalisme)",
-    },
-    {
-        id: 16,
-        firstname: 'Christiane',
-        lastname: 'Taubira',
-        bgColor: '#F5D061',
-        age: 69,
-        image: require('../../images/candidates/taubira/taubira-fixe.png'),
-        imageProfile: require('../../images/candidates/taubira/taubira-profile.png'),
-        groupe: 'Investie par la Primaire populaire',
-        pictureCredits: "© MaxPPP",
-        firstLinearColor: "#e73827",
-        secondLinearColor: "#f85032",
-        favorites: [
-            {
-                id: 1,
-                anecdote: true,
-                anecdoteEmoji: "🍿",
-                anecdoteText: "L’un des premiers films qu’elle a vu au cinéma : “Z”, de Costa-Gavras (1969)",
-            },
-            {
-                id: 2,
-                anecdote: true,
-                anecdoteEmoji: "🎶",
-                anecdoteText: "Son style musical préféré : le jazz",
-            },
-            {
-                id: 3,
-                anecdote: true,
-                anecdoteEmoji: "📖",
-                anecdoteText: "L’une de ses romancières préférées : Yaa Gyasi",
-            },
-            {
-                id: 4,
-                anecdote: true,
-                anecdoteEmoji: "✊",
-                anecdoteText: "Son premier combat politique : pour l’indépendance de la Guyane",
-            },
-            {
-                id: 5,
-                anecdote: true,
-                anecdoteEmoji: "✍️",
-                anecdoteText: "L’écriture comme passion : elle a publié 12 ouvrages en moins de 20 ans",
-            },
-        ],
-        studies: "Universités Paris II Panthéon-Assas, Paris IV Sorbonne, Paris VII Diderot",
     },
 
 ];

@@ -15,9 +15,22 @@ import resetData from "../../../assets/queries/resetData";
 import { Entypo, Feather } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import { API, graphqlOperation } from "aws-amplify";
+import TeamCard from "../../components/teamCard";
+import team from "../../../assets/data/team";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function Settings() {
   const navigation = useNavigation();
+
+  const [founders, setFounders] = useState([]);
+
+  useEffect(() => {
+    const foundersTeam = team.filter((e) => e.role === "founder");
+
+    console.log(foundersTeam);
+
+    setFounders(foundersTeam);
+  }, []);
 
   const deleteData = async () => {
     Alert.alert(
@@ -100,42 +113,80 @@ export default function Settings() {
             dans le deuxième onglet.
           </Text>
           <Text style={styles.helpTitleText}>
+            Est-ce que ELYZE collecte mes données ?
+          </Text>
+          <Text style={styles.helpText}>
+            Non, ELYZE ne collecte aucune donnée lors de l'utilisation de
+            l'application.
+          </Text>
+          <Text style={styles.helpTitleText}>
             Comment ELYZE détermine mes résultats ?
           </Text>
           <Text style={styles.helpText}>
-            Le "score" d'un candidat correspond à la proportion de "likes" parmi
-            l'ensemble des propositions swipées pour ce candidat.
+            Le score d'un candidat est calculé de la façon suivante : un point
+            pour un "like", deux pour un "super-like", et moins un pour un
+            "dislike" (les votes "Je ne sais pas" ne sont pas comptabilisés).
           </Text>
           <Text style={styles.helpTitleText}>
-            Mes résultats me paraissent incohérents ou "extrêmes"
+            Mes résultats me paraissent incohérents
           </Text>
           <Text style={styles.helpText}>
-            Si tu obtiens des résultats "extrêmes" (comme 100% ou 0%) sur
-            beaucoup de candidats, continue à swiper pour les affiner. Il est
-            normal que ceux-ci soient très élevés ou très faibles au départ,
-            mais plus tu swiperas et plus cela évoluera !
+            Si tu obtiens des résultats que tu considères comme incohérents,
+            continue à voter pour affiner tes résultats !
           </Text>
           <Text style={styles.helpTitleText}>
-            Est-ce que les membres d'ELYZE peuvent connaître mon orientation
-            politique ?
+            Est-ce que je peux utiliser ELYZE sans connexion internet ?
           </Text>
           <Text style={styles.helpText}>
-            Non, tes données personnelles sont traitées anonymement et tes
-            opinions politiques restent pour toi. Si tu veux en savoir plus, tu
-            peux consulter notre politique de confidentialité.
+            Oui ! ELYZE ne nécessite aucune connexion internet pour fonctionner.
           </Text>
         </View>
 
         <Text style={styles.settingsCategory}>👋🏼 À propos</Text>
         <View style={[styles.sectionContainer, { paddingHorizontal: 15 }]}>
-          <Text>
-            ELYZE a été développé avec ❤️ à Paris et Montréal par Grégoire
-            CAZCARRA & François MARI.
-          </Text>
-          <Text style={{ marginTop: 10 }}>
-            Avec les bénévoles du mouvement
-            <Text style={{ fontStyle: "italic" }}> Les Engagés !</Text>, Gaspard
-            G, et Wallerand MOULLÉ-BERTEAUX.
+          <FlatList
+            data={founders}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TeamCard
+                profile={{
+                  id: 1,
+                  firstName: item.firstName,
+                  lastName: item.lastName,
+                  role: "Co-créateur",
+                  social: item.social,
+                  imageURI: item.imageURI,
+                }}
+              />
+            )}
+          />
+
+          {/* <TouchableOpacity
+          onPress={() => navigation.navigate('Team')}
+            style={{
+              height: 35,
+              backgroundColor: "#F33C53",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 8,
+            }}
+          >
+            <Text style={{ color: "white", fontWeight: "bold" }}>
+              TOUT AFFICHER
+            </Text>
+          </TouchableOpacity> */}
+          <Text style={{ fontSize: 17 }}>
+            ELYZE a été développé avec ❤️ à Paris et Montréal avec les bénévoles
+            du mouvement
+            <Text style={{ fontStyle: "italic", fontWeight: "bold" }}>
+              {" "}
+              Les Engagés !
+            </Text>
+            , <Text style={{ fontWeight: "bold" }}>Gaspard G</Text>, et{" "}
+            <Text style={{ fontWeight: "bold" }}>
+              Wallerand MOULLÉ-BERTEAUX
+            </Text>
+            .
           </Text>
         </View>
 
@@ -143,10 +194,11 @@ export default function Settings() {
         <View style={styles.sectionContainer}>
           <Text style={{ marginBottom: 2, paddingHorizontal: 15 }}>
             Cloé Artaut · Gaston Anton Leon · Victor Barthes · Thibaut Chancy ·
-            Alexis Costa · Enzo Gabriel · Garance Hablot · Victor Jacquet · Anna
-            Koulakssis · Loup Laurent · Marie Lafarge · Océanne Lewden · Maxime
-            Mazuel · Octavien Maury · Camilo Pallasco · Swann Payan · Louison
-            Poilvet · Baptiste Salis · Julia Thebault Laurier · Julie Wright
+            Alexis Costa · Louis de Benoist · Enzo Gabriel · Fanny Graffin ·
+            Garance Hablot · Victor Jacquet · Anna Koulakssis · Loup Laurent ·
+            Marie Lafarge · Océanne Lewden · Maxime Mazuel · Octavien Maury ·
+            Camilo Pallasco · Swann Payan · Louison Poilvet · Baptiste Salis ·
+            Julia Thebault Laurier · Julie Wright
           </Text>
         </View>
 
@@ -174,7 +226,7 @@ export default function Settings() {
         <TouchableOpacity
           onPress={() => Linking.openURL("mailto:salut@elyze.co")}
           style={{
-            marginBottom: 15,
+            marginBottom: 10,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
@@ -190,11 +242,11 @@ export default function Settings() {
         <TouchableOpacity
           onPress={() =>
             Linking.openURL(
-              "https://nifty-option-15c.notion.site/Politique-de-confidentialit-d-ELYZE-563c3cdb31c9465da8e6749c0c4760d1"
+              "https://nifty-option-15c.notion.site/Mentions-l-gales-d-ELYZE-903b50418a2a4ef59fe9361b37f59c54"
             )
           }
           style={{
-            marginBottom: 15,
+            marginBottom: 10,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
@@ -203,11 +255,31 @@ export default function Settings() {
         >
           <Feather name={"external-link"} color={"#2C6EB9"} size={15} />
           <Text style={{ color: "#2C6EB9", marginLeft: 5 }}>
-            Politique de confidentialité & mentions légales
+            Mentions légales
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              "https://nifty-option-15c.notion.site/Politique-de-confidentialit-d-ELYZE-563c3cdb31c9465da8e6749c0c4760d1"
+            )
+          }
+          style={{
+            marginBottom: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingHorizontal: 20,
+          }}
+        >
+          <Feather name={"external-link"} color={"#2C6EB9"} size={15} />
+          <Text style={{ color: "#2C6EB9", marginLeft: 5 }}>
+            Conditions générales d'utilisation
+          </Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity
           onPress={async () =>
             await AsyncStorage.getItem("@idUser").then((res) =>
               Alert.alert("Identifiant unique", res)
@@ -223,42 +295,7 @@ export default function Settings() {
           <Text style={{ color: "#2C6EB9", marginLeft: 5 }}>
             Obtenir mon identifiant unique
           </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={async () => {
-            await AsyncStorage.getItem("@idUser").then(async (res) => {
-              console.log("identifiant : ", res);
-              const deleteDataRequest =
-                `mutation deleteUserInfo {
-                    updateUserInfo(input: {id: "` +
-                res +
-                `", postalCode: "0", willVoteFor: "", haveVotedFor: "", haveVoted: 0, dayBirth: 0, monthBirth: 0, yearBirth: 0, genre: 0}) {
-                      id
-                    }
-                  }
-                  `;
-
-              try {
-                await API.graphql(graphqlOperation(deleteDataRequest)).then(
-                  async () => {
-                    Alert.alert(
-                      "Données supprimées",
-                      "Tes informations ont bien été supprimées de nos serveurs."
-                    );
-                  }
-                );
-              } catch (e) {
-                Alert.alert("Erreur", "Réessaye dans quelques instants");
-              }
-            });
-          }}
-          style={{ marginTop: 5, marginBottom: 20, marginHorizontal: 10 }}
-        >
-          <Text style={{ textAlign: "center", fontSize: 18 }}>
-            Supprimer mes données
-          </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <Image
           source={require("../../../assets/icon.png")}
@@ -267,6 +304,7 @@ export default function Settings() {
             width: 40,
             alignSelf: "center",
             borderRadius: 8,
+            marginTop: 10,
             marginBottom: 10,
           }}
         />

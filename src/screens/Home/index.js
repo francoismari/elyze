@@ -26,6 +26,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import resetData from "../../../assets/queries/resetData";
 
+import propositionsList from "../../../assets/data/propositions/propositionsList";
+import firstPropositions from "../../../assets/data/propositions/firstPropositions";
+
+const allPropositionWhenReset = firstPropositions.concat(propositionsList);
+
 const swipeRef = createRef();
 
 export default function Levels() {
@@ -34,8 +39,6 @@ export default function Levels() {
   const [index, setIndex] = useState(0);
 
   const [propositions, setPropositions] = useState([]);
-  const [isConnectedToInternet, setIsConnectedToInternet] = useState(false);
-  const [showNotConnectedText, setShowNotConnectedText] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const [firstPropositionsToShow, setFirstPropositionsToShow] = useState([]);
@@ -46,37 +49,18 @@ export default function Levels() {
 
   const [isEnded, setIsEnded] = useState(false);
 
-  // Si l'utilisateur a renseigné ses données dans une version précédente, alors elles sont supprimées au démarrage de la nouvelle version
-  useEffect(async () => {
-    await AsyncStorage.getItem("@idUser").then(async (res) => {
-      const resetUserInfoRequest =
-        `mutation resetUserInfo {
-        updateUserInfo(input: {id: "` +
-        res +
-        `", monthBirth: 0, postalCode: "null", willVoteFor: "null", haveVotedFor: "null", haveVoted: 0, genre: 0, dayBirth: 0, yearBirth: 0}) {id}
-      }`;
-      console.log("Données réinitialisées");
-
-      try {
-        await API.graphql(graphqlOperation(resetUserInfoRequest));
-      } catch (e) {
-        console.log(
-          "Impossible de réinitialiser les données de l'utilisateur : ",
-          e
-        );
-      }
-    });
-  }, []);
-
   // Fonction pour rendre la position des propositions aléatoire
   function shuffle(array) {
     let currentIndexForShuffle = array.length,
       randomIndex;
 
+    // While there remain elements to shuffle...
     while (currentIndexForShuffle != 0) {
+      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndexForShuffle);
       currentIndexForShuffle--;
 
+      // And swap it with the current element.
       [array[currentIndexForShuffle], array[randomIndex]] = [
         array[randomIndex],
         array[currentIndexForShuffle],
@@ -86,139 +70,68 @@ export default function Levels() {
     return array;
   }
 
-  const getPropositions = async () => {
-    try {
-      const getPropsToShow = `query getAllProps {
-        listPropositions(limit: 100000, filter: {firstPropositions: {eq: 0}, toShowOnSwipe: {eq: 1}}) {
-          items {
-            articleContent
-            createdAt
-            firstPropositions
-            id
-            idCandidat
-            idTheme
-            source
-            title
-            toBeShownFirst
-            toShowOnSwipe
-          }
-        }
-      }`;
+  useEffect(() => {
+    setFirstPropositionsToShow(firstPropositions);
 
-      const getAllPropositions = await API.graphql(
-        graphqlOperation(getPropsToShow)
-      );
-
-      // console.log(getPropsToShow);
-
-      return getAllPropositions;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  useEffect(async () => {
-    NetInfo.fetch().then(async (state) => {
-      if (state.isConnected == true) {
-        setIsConnectedToInternet(true);
-
-        console.log("connecté");
-
-        const getFirstPropositions = async () => {
-          try {
-            const getFirstPropsQuery = `query getFirstProps {
-              listPropositions(limit: 1000, filter: {firstPropositions: {eq: 1}, toShowOnSwipe: {eq: 1}}) {
-                items {
-                  articleContent
-                  createdAt
-                  firstPropositions
-                  id
-                  idCandidat
-                  idTheme
-                  source
-                  title
-                  toBeShownFirst
-                  toShowOnSwipe
-                }
-              }
-            }`;
-
-            const getFirstPropositions = await API.graphql(
-              graphqlOperation(getFirstPropsQuery)
-            );
-
-            return getFirstPropositions;
-          } catch (e) {
-            console.log(
-              "Erreur lors de la récupération des propositions : ",
-              e
-            );
-            return null;
-          }
-        };
-
-        const firstPropositions = await getFirstPropositions();
-        setFirstPropositionsToShow(
-          firstPropositions.data.listPropositions.items
-        );
-
-        const allPropositions = await getPropositions();
-        // console.log(allPropositions);
-        setPropositions(allPropositions.data.listPropositions.items);
-      } else {
-        console.log("Aucune connexion internet");
-      }
-    });
+    console.log(firstPropositions);
+    setPropositions(propositionsList);
   }, []);
 
   useEffect(async () => {
-    if (propositions.length > 0) {
-      // Filtrer les propositions qui ont déjà été passées
+    try {
+      if (propositions.length > 0) {
+        // Filtrer les propositions qui ont déjà été passées
 
-      try {
-        var passedPropsIDRequest = await AsyncStorage.getItem(
-          "@passed_propositions"
-        ); // pour que ce soit égal à "null" pour l'instant
-        passedPropsIDRequest = JSON.parse(passedPropsIDRequest);
+        try {
+          var passedPropsIDRequest = await AsyncStorage.getItem(
+            "@passed_propositions"
+          ); // pour que ce soit égal à "null" pour l'instant
+          passedPropsIDRequest = JSON.parse(passedPropsIDRequest);
 
-        if (passedPropsIDRequest == "null" || passedPropsIDRequest == null) {
-          // Si il n'y aucune propositions passées
+          if (passedPropsIDRequest == "null" || passedPropsIDRequest == null) {
+            // Si il n'y aucune propositions passées
 
-          // console.log(firstPropositionsToShow);
+            // console.log(firstPropositionsToShow);
 
-          var newPropsList = shuffle(propositions);
-          newPropsList.push.apply(newPropsList, firstPropositionsToShow);
-          newPropsList.reverse();
-
-          setFinalPropositionsToShow(newPropsList);
-          setLoaded(true);
-        } else {
-          console.log(
-            "Nb de propositions passées: ",
-            passedPropsIDRequest.length
-          );
-
-          // Si beaucoup de propositions passées -> Afficher l'écran de fin
-          if (passedPropsIDRequest.length >= 400) {
-            setIsEnded(true);
-            setLoaded(true);
-          } else {
-            // On enlève les propositions qui sont déjà passées
-            const newPropositionsToShow = propositions.filter(
-              ({ id }) => !passedPropsIDRequest.includes(id)
-            );
-
-            var newPropsList = shuffle(newPropositionsToShow);
-
-            // console.log(newPropsList);
+            var newPropsList = shuffle(propositions);
+            newPropsList.push.apply(newPropsList, firstPropositionsToShow);
+            newPropsList.reverse();
 
             setFinalPropositionsToShow(newPropsList);
             setLoaded(true);
+          } else {
+            console.log(
+              "Nb de propositions passées: ",
+              passedPropsIDRequest.length
+            );
+
+            // // Si beaucoup de propositions passées -> Afficher l'écran de fin
+            if (passedPropsIDRequest.length >= 320) {
+              setIsEnded(true);
+              setLoaded(true);
+            } else {
+              // On enlève les propositions qui sont déjà passées
+              const newPropositionsToShow = propositions.filter(
+                ({ id }) => !passedPropsIDRequest.includes(id)
+              );
+
+              var newPropsList = shuffle(newPropositionsToShow);
+
+              // console.log(newPropsList);
+
+              setFinalPropositionsToShow(newPropsList);
+              setLoaded(true);
+            }
           }
+        } catch (e) {
+          console.log("Erreur: ", e);
         }
-      } catch (e) {
-        console.log("Erreur: ", e);
       }
+    } catch (e) {
+      console.log(
+        "Oups 😖",
+        "Il y a eu un problème lors du chargement des propositions... Réessaye dans quelques instants."
+      );
     }
   }, [propositions]);
 
@@ -402,6 +315,113 @@ export default function Levels() {
     }
   };
 
+  const toggleSuperLike = async (index) => {
+    const candidateId = finalPropositionsToShow[index].idCandidat;
+    const propositionIDForList = finalPropositionsToShow[index].id;
+
+    // 1. On récupère le score du candidat en question
+    try {
+      const candidateVariable = "@score_candidat_" + candidateId;
+
+      const dislikeCandidateVariable = "@scoreDislike_candidat_" + candidateId;
+
+      var currentCandidateScore = await AsyncStorage.getItem(candidateVariable);
+      var currentDislikeCandidateScore = await AsyncStorage.getItem(
+        dislikeCandidateVariable
+      );
+
+      // Set sur 0 le nombre de like si elle n'est pas définit
+      if (
+        currentDislikeCandidateScore == null ||
+        isNaN(currentDislikeCandidateScore)
+      ) {
+        try {
+          await AsyncStorage.setItem(dislikeCandidateVariable, "0").then(() =>
+            console.log(
+              "Nombre de dislike mis à jour pour ",
+              dislikeCandidateVariable
+            )
+          );
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      if (currentCandidateScore !== null) {
+        // Si !== null (>0) -> convertir en Int, ajouter 2, reconvertir en String
+        const intScore = parseInt(currentCandidateScore);
+        const newScore = intScore + 2;
+
+        console.log("On augmente de 2 point le score du candidat :", newScore);
+
+        await AsyncStorage.setItem(candidateVariable, newScore.toString());
+      } else {
+        // Si le candidat n'a aucun point (=null) -> setItem sur 2)
+        try {
+          await AsyncStorage.setItem(candidateVariable, "2").then(() =>
+            console.log("On met sur 2 le nombre de like ", candidateVariable)
+          );
+        } catch (e) {
+          console.log("Erreur pour mettre à jour le 1er score : ", e);
+        }
+      }
+    } catch (e) {
+      console.log("Impossible de récupérer le score du candidat", e);
+    }
+
+    // On ajoute l'id de cette proposition au tableau qui recense tous les 'super-likes' pour ce candidat
+    try {
+      const likeListForCandidateVariable =
+        "@superLikeListCandidate_" + candidateId;
+
+      var currentLikeListForCandidate = await AsyncStorage.getItem(
+        likeListForCandidateVariable
+      );
+
+      if (currentLikeListForCandidate !== null) {
+        // On ajoute cette proposition dans la liste des propositions likées
+        currentLikeListForCandidate = JSON.parse(currentLikeListForCandidate);
+
+        var newLikeListForCandidate = [
+          ...currentLikeListForCandidate,
+          propositionIDForList,
+        ];
+        newLikeListForCandidate = JSON.stringify(newLikeListForCandidate);
+
+        // console.log("Liste des super-likes mise à jour : ", newLikeListForCandidate);
+
+        try {
+          await AsyncStorage.setItem(
+            likeListForCandidateVariable,
+            newLikeListForCandidate
+          );
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        // Si il n'y a aucun like passée
+        var firstLikeList = [];
+        firstLikeList.push(propositionIDForList);
+        firstLikeList = JSON.stringify(firstLikeList);
+        try {
+          await AsyncStorage.setItem(
+            likeListForCandidateVariable,
+            firstLikeList
+          ).then(() =>
+            console.log("Liste des super-likes mise à jour : ", firstLikeList)
+          );
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    } catch (e) {
+      console.log(
+        "Erreur lors de la récupération de la liste des propositions likées : ",
+        e
+      );
+    }
+  };
+
   const toggleDislike = async (index) => {
     const candidateId = finalPropositionsToShow[index].idCandidat;
     const propositionIDForList = finalPropositionsToShow[index].id;
@@ -411,9 +431,6 @@ export default function Levels() {
       const dislikeCandidateVariable = "@scoreDislike_candidat_" + candidateId;
 
       const likeCandidateVariable = "@score_candidat_" + candidateId;
-
-      const postalCode = await AsyncStorage.getItem("@postalCode");
-      const idUser = await AsyncStorage.getItem("@idUser");
 
       var currentCandidateDislike = await AsyncStorage.getItem(
         dislikeCandidateVariable
@@ -493,6 +510,11 @@ export default function Levels() {
         ];
         newDislikeListForCandidate = JSON.stringify(newDislikeListForCandidate);
 
+        // console.log(
+        //   "Liste des dislikes mise à jour : ",
+        //   newDislikeListForCandidate
+        // );
+
         try {
           await AsyncStorage.setItem(
             dislikeListForCandidateVariable,
@@ -529,8 +551,7 @@ export default function Levels() {
     Popup.show({
       type: "success",
       title: "Déjà 25 propositions passées 🗳",
-      textBody:
-        "Plus que 25 swipes avant d'avoir une tendance qui se dessine !",
+      textBody: "Plus que 25 votes avant d'avoir une tendance qui se dessine !",
       iconEnabled: false,
       okButtonStyle: { backgroundColor: colors.primary },
       buttonText: "OK",
@@ -556,7 +577,7 @@ export default function Levels() {
       type: "success",
       title: "100 propositions swipées ! 🥇",
       textBody:
-        "Véritable as du swipe, tes résultats continuent de s'affiner, observe l'évolution de ton classement dans le deuxième onglet.",
+        "Véritable as du vote, tes résultats continuent de s'affiner, observe l'évolution de ton classement dans le deuxième onglet.",
       iconEnabled: false,
       okButtonStyle: { backgroundColor: colors.primary },
       buttonText: "OK",
@@ -564,329 +585,295 @@ export default function Levels() {
     });
   }
 
-  if (isConnectedToInternet) {
-    if (loaded) {
-      return (
-        <Root>
-          <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar style={"auto"} />
-            <View
+  if (loaded) {
+    return (
+      <Root>
+        <SafeAreaView style={{ flex: 1 }}>
+          <StatusBar style={"auto"} />
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <Image
+              source={require("../../../assets/images/logo-header.png")}
+              style={styles.logoImage}
+            />
+            {/* Bouton réglage */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Settings")}
               style={{
-                marginTop: 20,
+                position: "absolute",
+                top: -10,
+                right: 25,
+                height: Dimensions.get("window").width * 0.13,
+                width: Dimensions.get("window").width * 0.13,
+                backgroundColor: colors.primary,
+                borderRadius: 55,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Image
-                source={require("../../../assets/images/logo-header.png")}
-                style={styles.logoImage}
+              <Feather
+                name={"settings"}
+                size={Dimensions.get("window").width * 0.06}
+                color={"white"}
               />
-              {/* Bouton réglage */}
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Settings")}
-                style={{
-                  position: "absolute",
-                  top: -10,
-                  right: 25,
-                  height: Dimensions.get("window").width * 0.13,
-                  width: Dimensions.get("window").width * 0.13,
-                  backgroundColor: colors.primary,
-                  borderRadius: 55,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Feather
-                  name={"settings"}
-                  size={Dimensions.get("window").width * 0.06}
-                  color={"white"}
-                />
-              </TouchableOpacity>
+            </TouchableOpacity>
 
-              {/* Cercle rouge affiché derrière */}
-              <View style={styles.circleContainer} />
+            {/* Cercle rouge affiché derrière */}
+            <View style={styles.circleContainer} />
 
-              <View
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  marginTop: Dimensions.get("window").height * 0.06,
-                }}
-              >
-                {isEnded == true ? (
-                  <View
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: Dimensions.get("window").height * 0.15,
-                      height: Dimensions.get("window").height * 0.4,
-                      backgroundColor: "white",
-                      marginHorizontal: 25,
-                      borderRadius: 40,
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 2,
-                      },
-                      shadowOpacity: 0.25,
-                      shadowRadius: 3.84,
+            {/* <View style={{ marginTop: Dimensions.get("window").height * 0.015 }}> */}
+            <View
+              style={{
+                width: "100%",
+                height: "100%",
+                marginTop: Dimensions.get("window").height * 0.06,
+              }}
+            >
+              {isEnded == true ? (
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: Dimensions.get("window").height * 0.15,
+                    height: Dimensions.get("window").height * 0.4,
+                    backgroundColor: "white",
+                    marginHorizontal: 25,
+                    borderRadius: 40,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
 
-                      elevation: 5,
-                      justifyContent: "space-between",
-                      zIndex: 100,
-                    }}
-                  >
-                    <View style={{ marginTop: 20, alignItems: "center" }}>
-                      <Text style={{ fontSize: 40 }}>🎉</Text>
+                    elevation: 5,
+                    justifyContent: "space-between",
+                    zIndex: 100,
+                  }}
+                >
+                  <View style={{ marginTop: 20, alignItems: "center" }}>
+                    <Text style={{ fontSize: 40 }}>🎉</Text>
+                    <Text
+                      style={{
+                        paddingHorizontal: 30,
+                        fontSize: 25,
+                        textAlign: "center",
+                        marginTop: 20,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Tu as passé toutes les propositions !
+                    </Text>
+                    <Text
+                      style={{
+                        paddingHorizontal: 30,
+                        fontSize: 18,
+                        textAlign: "center",
+                        marginTop: 10,
+                      }}
+                    >
+                      Découvre tes scores dans l'onglet "Résultats"
+                    </Text>
+                  </View>
+                  <View style={{ width: "85%" }}>
+                    <TouchableOpacity
+                      onPress={async () => {
+                        await resetData().then(async () => {
+                          setIndex(0);
+                          setLoaded(false);
+
+                          setPropositions(
+                            allPropositionWhenReset
+                          );
+                          setIsEnded(false);
+                        });
+                      }}
+                      style={{
+                        marginBottom: 0,
+                        height: 50,
+                        backgroundColor: colors.primary,
+                        borderRadius: 10,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       <Text
                         style={{
-                          paddingHorizontal: 30,
-                          fontSize: 25,
-                          textAlign: "center",
-                          marginTop: 20,
+                          textTransform: "uppercase",
+                          color: "white",
+                          fontSize: 18,
                           fontWeight: "bold",
                         }}
                       >
-                        Tu as passé toutes les propositions !
+                        Recommencer
                       </Text>
-                      <Text
-                        style={{
-                          paddingHorizontal: 30,
-                          fontSize: 18,
-                          textAlign: "center",
-                          marginTop: 10,
-                        }}
-                      >
-                        Découvrez vos scores dans l'onglet "Résultats"
-                      </Text>
-                    </View>
-                    <View style={{ width: "85%" }}>
-                      <TouchableOpacity
-                        onPress={async () => {
-                          await resetData().then(async () => {
-                            setIndex(0);
-                            setLoaded(false);
-
-                            const allPropositions = await getPropositions();
-                            console.log(allPropositions);
-                            setPropositions(
-                              allPropositions.data.listPropositions.items
-                            );
-                            setIsEnded(false);
-                          });
-                        }}
-                        style={{
-                          marginBottom: 0,
-                          height: 50,
-                          backgroundColor: colors.primary,
-                          borderRadius: 10,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Text
-                          style={{
-                            textTransform: "uppercase",
-                            color: "white",
-                            fontSize: 18,
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Recommencer
-                        </Text>
-                      </TouchableOpacity>
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          paddingVertical: 10,
-                          fontSize: 12,
-                        }}
-                      >
-                        Cela réinitialisera également vos résultats
-                      </Text>
-                    </View>
-                  </View>
-                ) : null}
-                {isEnded !== true ? (
-                  <Swiper
-                    ref={swipeRef}
-                    cards={finalPropositionsToShow}
-                    cardIndex={index}
-                    onSwipedAll={() => {
-                      setIsEnded(true);
-                    }}
-                    renderCard={(card) => {
-                      return <SwipeCard cardTo proposition={card} />;
-                    }}
-                    onSwiped={onSwiped}
-                    onSwipedLeft={(index) => toggleDislike(index)}
-                    onSwipedRight={(index) => toggleLike(index)}
-                    stackSize={4}
-                    disableTopSwipe
-                    animateOverlayLabelsOpacity
-                    animateCardOpacity
-                    backgroundColor={"transparent"}
-                    overlayLabels={{
-                      left: {
-                        title: "CONTRE",
-                        style: {
-                          label: {
-                            backgroundColor: colors.primary,
-                            color: "white",
-                            fontSize: 24,
-                          },
-                          wrapper: {
-                            flexDirection: "column",
-                            alignItems: "flex-end",
-                            justifyContent: "flex-start",
-                            marginTop: 20,
-                            marginLeft: -20,
-                          },
-                        },
-                      },
-                      right: {
-                        title: "POUR",
-                        style: {
-                          label: {
-                            backgroundColor: "#5099AF",
-                            color: "white",
-                            fontSize: 24,
-                          },
-                          wrapper: {
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                            justifyContent: "flex-start",
-                            marginTop: 20,
-                            marginLeft: 20,
-                          },
-                        },
-                      },
-                      bottom: {
-                        title: "NE SE PRONONCE PAS",
-                        style: {
-                          label: {
-                            backgroundColor: "white",
-                            color: "black",
-                            fontSize: 24,
-                          },
-                          wrapper: {
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                            marginTop: 20,
-                          },
-                        },
-                      },
-                    }}
-                  />
-                ) : null}
-              </View>
-              {/* </View> */}
-
-              {isEnded == false ? (
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={[styles.likeButton, { marginLeft: 0 }]}
-                    onPress={() => {
-                      swipeRef.current.swipeLeft();
-                    }}
-                  >
-                    <FontAwesome
-                      name={"times"}
-                      size={Dimensions.get("window").width * 0.1}
-                      color={colors.dislikeButton}
-                    />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.likeButton}
-                    onPress={() => {
-                      swipeRef.current.swipeBottom();
-                    }}
-                  >
+                    </TouchableOpacity>
                     <Text
                       style={{
-                        fontSize: Dimensions.get("window").width * 0.08,
+                        textAlign: "center",
+                        paddingVertical: 10,
+                        fontSize: 12,
                       }}
                     >
-                      🤔
+                      Cela réinitialisera également tes résultats
                     </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.likeButton}
-                    onPress={() => {
-                      swipeRef.current.swipeRight();
-                    }}
-                  >
-                    <FontAwesome
-                      name={"heart"}
-                      size={Dimensions.get("window").width * 0.08}
-                      color={colors.likeButton}
-                    />
-                  </TouchableOpacity>
-                  {/* <Text>{numberOfPropsSwiped} swipes</Text> */}
+                  </View>
                 </View>
               ) : null}
+              {isEnded !== true ? (
+                <Swiper
+                  ref={swipeRef}
+                  cards={finalPropositionsToShow}
+                  cardIndex={index}
+                  onSwipedAll={() => {
+                    // Fin du swipe
+                    setIsEnded(true);
+                    // fetchPropositions();
+                    // À RAJOUTER - POUR RESET LES CARTES AU DÉBUT
+                  }}
+                  renderCard={(card) => {
+                    return <SwipeCard cardTo proposition={card} />;
+                  }}
+                  onSwiped={onSwiped}
+                  onSwipedLeft={(index) => toggleDislike(index)}
+                  onSwipedRight={(index) => toggleLike(index)}
+                  onSwipedTop={(index) => toggleSuperLike(index)}
+                  // disableTopSwipe
+                  stackSize={4}
+                  // infinite
+                  animateOverlayLabelsOpacity
+                  animateCardOpacity
+                  backgroundColor={"transparent"}
+                  overlayLabels={{
+                    left: {
+                      title: "CONTRE",
+                      style: {
+                        label: {
+                          backgroundColor: colors.primary,
+                          color: "white",
+                          fontSize: 24,
+                        },
+                        wrapper: {
+                          flexDirection: "column",
+                          alignItems: "flex-end",
+                          justifyContent: "flex-start",
+                          marginTop: 20,
+                          marginLeft: -20,
+                        },
+                      },
+                    },
+                    right: {
+                      title: "POUR",
+                      style: {
+                        label: {
+                          backgroundColor: "#5099AF",
+                          color: "white",
+                          fontSize: 24,
+                        },
+                        wrapper: {
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          justifyContent: "flex-start",
+                          marginTop: 20,
+                          marginLeft: 20,
+                        },
+                      },
+                    },
+                    bottom: {
+                      title: "NE SE PRONONCE PAS",
+                      style: {
+                        label: {
+                          backgroundColor: "white",
+                          color: "black",
+                          fontSize: 24,
+                        },
+                        wrapper: {
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "flex-start",
+                          marginTop: 20,
+                        },
+                      },
+                    },
+                  }}
+                />
+              ) : null}
             </View>
-          </SafeAreaView>
-        </Root>
-      );
-    } else {
-      return (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator size={"large"} />
-        </View>
-      );
-    }
-  } else {
-    setTimeout(function () {
-      if (showNotConnectedText == false) {
-        setShowNotConnectedText(true);
-      }
-    }, 4000);
+            {/* </View> */}
 
-    if (!showNotConnectedText) {
-      return (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator size={"large"} />
-        </View>
-      );
-    } else {
-      return (
-        <View
-          style={{ flex: 1, justifyContent: "center", paddingHorizontal: 30 }}
-        >
-          <Text
-            style={{ fontSize: 40, textAlign: "center", fontWeight: "bold" }}
-          >
-            😖
-          </Text>
-          <Text
-            style={{
-              fontSize: 25,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 10,
-            }}
-          >
-            Impossible de charger les propositions
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              textAlign: "center",
-              fontWeight: "400",
-              marginTop: 10,
-            }}
-          >
-            Vérifie ta connexion internet et réessaye dans quelques instants (en
-            attendant, tu peux toujours accéder à tes résultats 👀)
-          </Text>
-        </View>
-      );
-    }
+            {isEnded == false ? (
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.hesitateButton}
+                  onPress={() => {
+                    swipeRef.current.swipeBottom();
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: Dimensions.get("window").width * 0.07,
+                    }}
+                  >
+                    🤔
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.likeButton, { marginLeft: 0 }]}
+                  onPress={() => {
+                    swipeRef.current.swipeLeft();
+                  }}
+                >
+                  <FontAwesome
+                    name={"times"}
+                    size={Dimensions.get("window").width * 0.1}
+                    color={colors.dislikeButton}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.likeButton}
+                  onPress={() => {
+                    swipeRef.current.swipeRight();
+                  }}
+                >
+                  <FontAwesome
+                    name={"heart"}
+                    size={Dimensions.get("window").width * 0.08}
+                    color={colors.likeButton}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.superLikeButton]}
+                  onPress={() => {
+                    swipeRef.current.swipeTop();
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: Dimensions.get("window").width * 0.07,
+                    }}
+                  >
+                    🤩
+                  </Text>
+                </TouchableOpacity>
+                {/* <Text>{numberOfPropsSwiped} swipes</Text> */}
+              </View>
+            ) : null}
+          </View>
+        </SafeAreaView>
+      </Root>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
   }
 }

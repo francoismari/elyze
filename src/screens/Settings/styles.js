@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     color: "white",
     textTransform: "uppercase",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: Dimensions.get('window').width*0.04,
   },
   helpTitleText: { fontWeight: "bold", marginBottom: 2, fontSize: 16 },
   helpText: {

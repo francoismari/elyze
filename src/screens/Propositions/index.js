@@ -6,13 +6,16 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import candidatesList from "../../../assets/data/candidates/candidatesList";
 import ByCandidateCard from "../../components/ByCandidateCard";
 import PropositionThemeCard from "../../components/PropositionThemeCard";
 import styles from "./styles";
 import ResponsiveTitle from "../../components/ResponsiveTitle";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
+import colors from "../../../assets/colors/colors";
 
 export default function Propositions() {
   const navigation = useNavigation();
@@ -27,14 +30,37 @@ export default function Propositions() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <ScrollView>
-        <ResponsiveTitle title={'Parcourir les propositions'} />
+        <ResponsiveTitle title={"Parcourir les propositions"} />
+
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("FavoritesPropositions")
+          }
+          style={{
+            position: "absolute",
+            top: 25,
+            right: 25,
+            height: Dimensions.get("window").width * 0.13,
+            width: Dimensions.get("window").width * 0.13,
+            backgroundColor: colors.primary,
+            borderRadius: 55,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <AntDesign
+            name={"star"}
+            size={Dimensions.get("window").width * 0.06}
+            color={"white"}
+          />
+        </TouchableOpacity>
 
         <View style={styles.lineContainer}>
           <PropositionThemeCard
             title={"Environnement"}
-            bgColor={"#25AD5B"}
+            bgColor={"#45B959"}
             icon={"leaf"}
             iconColor={"#147139"}
             iconType={"FontAwesome5"}
@@ -42,7 +68,7 @@ export default function Propositions() {
           />
           <PropositionThemeCard
             title={"Économie"}
-            bgColor={"#EFE160"}
+            bgColor={"#E6D642"}
             icon={"euro"}
             iconColor={"#AE9F16"}
             iconType={"FontAwesome"}
@@ -52,7 +78,7 @@ export default function Propositions() {
         <View style={styles.lineContainer}>
           <PropositionThemeCard
             title={"Éducation"}
-            bgColor={"#C04F7E"}
+            bgColor={"#C3467A"}
             icon={"school"}
             iconColor={"#8E2953"}
             iconType={"MaterialCommunityIcons"}
@@ -60,7 +86,7 @@ export default function Propositions() {
           />
           <PropositionThemeCard
             title={"Solidarités & santé"}
-            bgColor={"#E092CF"}
+            bgColor={"#DF8CD2"}
             icon={"healing"}
             iconColor={"#A84793"}
             iconType={"MaterialIcons"}
@@ -70,7 +96,7 @@ export default function Propositions() {
         <View style={styles.lineContainer}>
           <PropositionThemeCard
             title={"Société"}
-            bgColor={"#A165B6"}
+            bgColor={"#9E59C0"}
             icon={"family-restroom"}
             iconColor={"#6A2283"}
             iconType={"MaterialIcons"}
@@ -78,7 +104,7 @@ export default function Propositions() {
           />
           <PropositionThemeCard
             title={"International"}
-            bgColor={"#5054AF"}
+            bgColor={"#464AB4"}
             icon={"globe"}
             iconColor={"#2E3395"}
             iconType={"Entypo"}

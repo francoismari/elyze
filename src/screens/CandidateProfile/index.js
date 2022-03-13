@@ -36,6 +36,7 @@ export default function CandidateProfile({ route }) {
   const [favorites, setFavorites] = useState([]);
   const [creditsForPicture, setCreditsForPicture] = useState("");
   const [studies, setStudies] = useState("");
+  const [work, setWork] = useState("");
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -61,6 +62,7 @@ export default function CandidateProfile({ route }) {
     setFavorites(candidateDetails[0].favorites);
     setCreditsForPicture(candidateDetails[0].pictureCredits);
     setStudies(candidateDetails[0].studies);
+    setWork(candidateDetails[0].work);
 
     /* On peut afficher les infos quand elles sont chargées */
     setIsLoaded(true);
@@ -89,6 +91,11 @@ export default function CandidateProfile({ route }) {
               <View style={[styles.groupDetailsContainer, { marginLeft: 25 }]}>
                 <Feather name={"map-pin"} size={24} color={"gray"} />
                 <Text style={styles.groupText}>{groupe}</Text>
+              </View>
+
+              <View style={[styles.groupDetailsContainer, { marginLeft: 25 }]}>
+                <Ionicons name="briefcase-outline" size={24} color="gray" />
+                <Text style={styles.groupText}>{work}</Text>
               </View>
 
               {studies ? (
@@ -165,7 +172,7 @@ export default function CandidateProfile({ route }) {
                   marginBottom: 30,
                   color: "gray",
                   fontSize: 12,
-                  width: '80%'
+                  width: "80%",
                 }}
               >
                 Crédit photo du candidat : {creditsForPicture}
@@ -174,7 +181,7 @@ export default function CandidateProfile({ route }) {
           </TriggeringView>
         </ImageHeaderScrollView>
       ) : (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator style={{ alignSelf: "center" }} size={"large"} />
         </View>
       )}

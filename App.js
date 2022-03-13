@@ -1,12 +1,3 @@
-import Amplify from "aws-amplify";
-import { API, graphqlOperation } from "aws-amplify";
-
-import config from "./src/aws-exports";
-
-Amplify.register(API);
-
-Amplify.configure(config);
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Dimensions,
@@ -14,20 +5,17 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   Alert,
   Platform,
-  Switch,
 } from "react-native";
 import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 
-import {
-  FontAwesome5,
-  Octicons,
-} from "@expo/vector-icons";
+import { FontAwesome5, Octicons, Entypo } from "@expo/vector-icons";
 import colors from "./assets/colors/colors";
 import * as Haptics from "expo-haptics";
+import * as Device from "expo-device";
 
 import Onboarding from "react-native-onboarding-swiper";
 
@@ -38,6 +26,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { enableScreens } from "react-native-screens";
 
+import Article from "./src/screens/Article";
 import Propositions from "./src/screens/Propositions";
 import ListPropositions from "./src/screens/ListPropositions";
 import CandidateProfile from "./src/screens/CandidateProfile";
@@ -50,7 +39,13 @@ import ThemeByCandidate from "./src/screens/ThemeByCandidate";
 import CandidatesResults from "./src/screens/CandidatesResults";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as Linking from "expo-linking";
+import Team from "./src/screens/Team";
+import FirstScreen from "./src/screens/Set-upScreens/First";
+import SecondScreen from "./src/screens/Set-upScreens/Second";
+import FavoritesPropositions from "./src/screens/FavoritesPropositions";
+import ShareToSocial from "./src/screens/Share";
+import Eligible from "./src/screens/Eligible";
+import ThirdScreen from "./src/screens/Set-upScreens/Third";
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -107,6 +102,20 @@ const TabNavigator = () => (
         ),
       }}
     />
+    {/* <Tab.Screen
+      name={"Election"}
+      component={Election}
+      listeners={() => ({
+        tabPress: () => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        },
+      })}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <MaterialIcons name={"how-to-vote"} color={color} size={35} />
+        ),
+      }}
+    /> */}
   </Tab.Navigator>
 );
 
@@ -198,6 +207,11 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name={"Article"}
+              component={Article}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name={"ListPropositions"}
               component={ListPropositions}
               options={{ headerShown: false }}
@@ -215,6 +229,11 @@ export default function App() {
             <Stack.Screen
               name={"ThemeByCandidate"}
               component={ThemeByCandidate}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={"FavoritesPropositions"}
+              component={FavoritesPropositions}
               options={{ headerShown: false }}
             />
             <Stack.Group screenOptions={{ presentation: "modal" }}>
@@ -238,47 +257,42 @@ export default function App() {
                 options={{ headerShown: false }}
               />
             </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen
+                name={"Team"}
+                component={Team}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen
+                name={"Share"}
+                component={ShareToSocial}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen
+                name={"Eligible"}
+                component={Eligible}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
     );
   } else {
     const toggleDoneSetUp = async () => {
-      if (hasAccepted) {
-        try {
-
-          await AsyncStorage.setItem("@isSetUp2", "true").then(async () => {
-            // Vérifier si l'utilisateur à accepté les CGU et l'ajouter à AWS
-            const newUserRequest = `mutation addNewUser {
-                createUserInfo(input: {postalCode: "00000"}) {
-                  id
-                }
-              }`;
-
-            try {
-              await API.graphql(graphqlOperation(newUserRequest)).then(
-                async (response) => {
-                  console.log(response);
-                  await AsyncStorage.setItem(
-                    "@idUser",
-                    response.data.createUserInfo.id
-                  ).then(() => {
-                    setIsSetUp(true);
-                    // Utilisateur inscrit
-                  });
-                }
-              );
-            } catch (e) {
-              console.log();
-            }
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
+      try {
+        await AsyncStorage.setItem("@isSetUp2", "true").then(async () => {
+          setIsSetUp(true);
+          // Utilisateur inscrit
+        });
+      } catch (e) {
         Alert.alert(
-          "Erreur",
-          "Vous devez accepter nos CGU et notre politique de confidentialité pour pouvoir utiliser Elyze."
+          "Oups 😖",
+          "Une erreur est survenue, réessaye dans quelques instants"
         );
       }
     };
@@ -288,158 +302,25 @@ export default function App() {
         onDone={() => toggleDoneSetUp()}
         pages={[
           {
-            backgroundColor: colors.primary,
-            image: (
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text
-                  style={{
-                    marginTop: Dimensions.get("window").width * 0.09,
-                    fontSize: Dimensions.get("window").width * 0.08,
-                    marginHorizontal: 30,
-                    color: "white",
-                    fontWeight: "bold",
-                    marginBottom: Dimensions.get("window").width * 0.08,
-                    textAlign: "center",
-                  }}
-                >
-                  Bienvenue sur ELYZE
-                </Text>
-                <Image
-                  style={{
-                    height: Dimensions.get("window").width * 0.7,
-                    resizeMode: "contain",
-                  }}
-                  source={require("./assets/images/set-up/step-1.png")}
-                />
-                <Text
-                  style={{
-                    marginHorizontal: 45,
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: Dimensions.get("window").width * 0.06,
-                    marginBottom: 50,
-                    fontWeight: "500",
-                    marginTop: Dimensions.get("window").width * 0.08,
-                  }}
-                >
-                  Swipe les propositions et découvre le candidat fait pour toi
-                </Text>
-              </View>
-            ),
+            backgroundColor: "#DE3D59",
+            image: <FirstScreen />,
             title: null,
             subtitle: null,
           },
           {
-            backgroundColor: colors.primary,
-            image: (
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text
-                  style={{
-                    marginTop: Dimensions.get("window").width * 0.09,
-                    fontSize: Dimensions.get("window").width * 0.08,
-                    marginHorizontal: 30,
-                    color: "white",
-                    fontWeight: "bold",
-                    marginBottom: 10,
-                    textAlign: "center",
-                  }}
-                >
-                  🏅
-                </Text>
-                <Text
-                  style={{
-                    fontSize: Dimensions.get("window").width * 0.08,
-                    marginHorizontal: 30,
-                    color: "white",
-                    fontWeight: "bold",
-                    marginBottom: Dimensions.get("window").width * 0.08,
-                    textAlign: "center",
-                  }}
-                >
-                  Accède à un classement détaillé
-                </Text>
-                <Image
-                  style={{
-                    height: Dimensions.get("window").width * 0.7,
-                    resizeMode: "contain",
-                  }}
-                  source={require("./assets/images/set-up/step-2.png")}
-                />
-                <Text
-                  style={{
-                    marginHorizontal: 45,
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: Dimensions.get("window").width * 0.06,
-                    marginBottom: 50,
-                    fontWeight: "500",
-                    marginTop: Dimensions.get("window").width * 0.08,
-                  }}
-                >
-                  Découvre tes affinités politiques selon tes choix pour chaque
-                  candidat
-                </Text>
-              </View>
-            ),
+            backgroundColor: "#63A5C1",
+            image: <SecondScreen />,
             title: null,
             subtitle: null,
           },
           {
-            backgroundColor: colors.primary,
-            image: (
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text
-                  style={{
-                    marginTop: Dimensions.get("window").width * 0.09,
-                    fontSize: Dimensions.get("window").width * 0.08,
-                    marginHorizontal: 30,
-                    color: "white",
-                    fontWeight: "bold",
-                    marginBottom: 10,
-                    textAlign: "center",
-                  }}
-                >
-                  🗳
-                </Text>
-                <Text
-                  style={{
-                    fontSize: Dimensions.get("window").width * 0.08,
-                    marginHorizontal: 30,
-                    color: "white",
-                    fontWeight: "bold",
-                    marginBottom: Dimensions.get("window").width * 0.08,
-                    textAlign: "center",
-                  }}
-                >
-                  Découvre les propositions
-                </Text>
-                <Image
-                  style={{
-                    height: Dimensions.get("window").width * 0.7,
-                    resizeMode: "contain",
-                  }}
-                  source={require("./assets/images/set-up/step-3.png")}
-                />
-                <Text
-                  style={{
-                    marginHorizontal: 45,
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: Dimensions.get("window").width * 0.06,
-                    marginBottom: 50,
-                    fontWeight: "500",
-                    marginTop: Dimensions.get("window").width * 0.08,
-                  }}
-                >
-                  Explore l'ensemble des propositions, par thème et par candidat
-                </Text>
-              </View>
-            ),
+            backgroundColor: "#4F3AA8",
+            image: <ThirdScreen />,
             title: null,
             subtitle: null,
           },
           {
-            backgroundColor: colors.primary,
+            backgroundColor: "#DE3D59",
             image: (
               <View
                 style={{
@@ -459,7 +340,7 @@ export default function App() {
                     marginTop: -60,
                   }}
                 >
-                  🧙‍♂️
+                  🤝
                 </Text>
                 <Text
                   style={{
@@ -472,58 +353,22 @@ export default function App() {
                     marginTop: -60,
                   }}
                 >
-                  Plus qu'une étape !
+                  Avant de commencer
                 </Text>
 
-                <View
+                <Text
                   style={{
-                    alignItems: "center",
-                    marginHorizontal: 60,
-                    flexDirection: "row",
-                    marginTop: 10,
-                    alignItems: "center",
-                    justifyContent: "center",
+                    paddingHorizontal: 30,
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "500",
+                    marginTop: -10,
+                    fontSize: 20,
                   }}
                 >
-                  <Switch
-                    style={{ marginTop: 5 }}
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={hasAccepted ? "#FFFFFF" : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={() =>
-                      setHasAccepted((previousState) => !previousState)
-                    }
-                    value={hasAccepted}
-                  />
-                  <TouchableOpacity
-                    onPress={() =>
-                      Linking.openURL(
-                        "https://nifty-option-15c.notion.site/Politique-de-confidentialit-d-ELYZE-563c3cdb31c9465da8e6749c0c4760d1"
-                      )
-                    }
-                    style={{ marginLeft: 10 }}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        textAlign: "left",
-                        fontSize: Dimensions.get("window").width * 0.041,
-                        marginTop: 7,
-                      }}
-                    >
-                      J'accepte
-                      <Text>
-                        <Text style={{ color: "#0557A3" }}>
-                          {" "}
-                          les conditions générales d'utilisation et la politique
-                          de confidentialité d'ELYZE
-                        </Text>
-                      </Text>
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-
-                <Text style={{paddingHorizontal: 30, textAlign: 'center', color: 'white', fontWeight: '500', marginTop: 20}}>Aucune donnée personnelle n'est collectée par ELYZE lors de l'utilisation de l'app 🕵️</Text>
+                  Aucune donnée n'est collectée par ELYZE lors de l'utilisation
+                  de l'app 🕵️
+                </Text>
 
                 <TouchableOpacity
                   onPress={() => toggleDoneSetUp()}
@@ -547,7 +392,20 @@ export default function App() {
         ]}
         showDone={false}
         showSkip={false}
-        nextLabel={"Suivant"}
+        nextLabel={
+          <View
+            style={{
+              width: 35,
+              height: 35,
+              backgroundColor: "white",
+              borderRadius: 30,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Entypo name={"chevron-right"} size={24} color={colors.primary} />
+          </View>
+        }
         bottomBarHeight={80}
       />
     );
@@ -566,7 +424,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6.68,
 
     elevation: 11,
-    paddingHorizontal: Dimensions.get("window").width * 0.18,
+    paddingHorizontal: Dimensions.get("window").width * 0.19,
   },
   textInputContainer: {
     paddingVertical: 10,

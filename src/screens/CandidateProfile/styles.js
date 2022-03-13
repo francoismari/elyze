@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   groupDetailsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 6,
+    marginTop: 7,
     width: Dimensions.get('window').width*0.8
   },
   groupText: {

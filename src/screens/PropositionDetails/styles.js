@@ -8,7 +8,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingBottom: 40
+    paddingBottom: 40,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  addToFavoriteButton: {
+    width: "20%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: width * 0.09,
+    borderRadius: 10,
+    marginTop: 27,
+    marginBottom: 18,
   },
   closeButton: {
     position: "absolute",
@@ -32,43 +46,46 @@ const styles = StyleSheet.create({
   closeModalText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: 'white'
+    color: "white",
   },
   themeContainer: {
-    height: width*0.09,
+    flexDirection: "row",
+    height: width * 0.09,
+    width: "78%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 27,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 1,
+    // },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 1.41,
 
-    elevation: 2,
+    // elevation: 2,
     borderRadius: 10,
-    marginBottom: 18
+    marginBottom: 18,
   },
-  themeTitleText: {
-    textTransform: 'uppercase'
+  themeTitleText: {
+    textTransform: "uppercase",
+    color: "white",
   },
   candidateDetailsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
   },
   propositionTitle: {
-      fontSize: width*0.06,
-      fontWeight: 'bold',
-      marginBottom: 12
+    fontSize: width * 0.06,
+    fontWeight: "bold",
+    marginBottom: 12,
   },
 
   /* Style de la description (HTML) */
   p: {
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
 
 export default styles;

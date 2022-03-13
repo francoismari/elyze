@@ -87,59 +87,59 @@ export default function Results() {
     const candidateVariable = "@score_candidat_" + idCandidat;
     const dislikeCandidateVariable = "@scoreDislike_candidat_" + idCandidat;
 
-    // const superLikecandidateVariable = "@likeListCandidate_" + idCandidat;
-    // const candidateVariable = "@superLikeListCandidate_" + idCandidat;
-    // const dislikeCandidateVariable = "@dislikeListCandidate_" + idCandidat;
+    const likeCandidateVariablePassed = "@likeListCandidate_" + idCandidat;
+    const superLikeCandidateVariablePassed =
+      "@superLikeListCandidate_" + idCandidat;
+    const dislikeCandidateVariablePassed =
+      "@dislikeListCandidate_" + idCandidat;
 
-    // var superLikesForCandidate = await AsyncStorage.getItem(superLikecandidateVariable);
+    try {
+      var likesForCandidatePassed = await AsyncStorage.getItem(
+        likeCandidateVariablePassed
+      );
+      likesForCandidatePassed = JSON.parse(likesForCandidatePassed);
+      likesForCandidatePassed = likesForCandidatePassed.length;
+    } catch (e) {
+      var likesForCandidatePassed = null;
+    }
+
+    try {
+      var superlikesForCandidatePassed = await AsyncStorage.getItem(
+        superLikeCandidateVariablePassed
+      );
+      superlikesForCandidatePassed = JSON.parse(superlikesForCandidatePassed);
+      superlikesForCandidatePassed = superlikesForCandidatePassed.length;
+    } catch (e) {
+      var superlikesForCandidatePassed = null;
+    }
+
+    try {
+      var dislikesForCandidatePassed = await AsyncStorage.getItem(
+        dislikeCandidateVariablePassed
+      );
+      dislikesForCandidatePassed = JSON.parse(dislikesForCandidatePassed);
+      dislikesForCandidatePassed = dislikesForCandidatePassed.length;
+    } catch (e) {
+      var dislikesForCandidatePassed = null;
+    }
+
     var likesForCandidate = await AsyncStorage.getItem(candidateVariable);
     var dislikesForCandidate = await AsyncStorage.getItem(
       dislikeCandidateVariable
     );
 
-    // superLikesForCandidate = JSON.parse(likesForCandidate);
-
-    // superLikesForCandidate = [...new Set(superLikesForCandidate)];
-
-    // if (superLikesForCandidate == null) {
-    //   superLikesForCandidate = 0;
-    // } else {
-    //   superLikesForCandidate = superLikesForCandidate.length;
-    // }
-
     likesForCandidate = JSON.parse(likesForCandidate);
 
-    // likesForCandidate = [...new Set(likesForCandidate)];
-
-    // if (likesForCandidate == null) {
-    //   likesForCandidate = 0;
-    // } else {
-    //   likesForCandidate = likesForCandidate.length;
-    // }
-
     dislikesForCandidate = JSON.parse(dislikesForCandidate);
-
-    // dislikesForCandidate = [...new Set(dislikesForCandidate)];
-    // if (dislikesForCandidate == null) {
-    //   dislikesForCandidate = 0;
-    // } else {
-    //   dislikesForCandidate = dislikesForCandidate.length;
-    // }
 
     const likesAndDislikesNumber =
       parseInt(likesForCandidate) + parseInt(dislikesForCandidate);
 
-    var likesPercentageForCandidate =
-      (likesForCandidate / likesAndDislikesNumber) * 100;
-    // (likesForCandidate) / (likesForCandidate + dislikesForCandidate);
-    // var dislikePercentageForCandidate =
-    //   (dislikesForCandidate * 100) / (likesForCandidate + dislikesForCandidate);
+    var likesPercentageForCandidate = likesForCandidate - dislikesForCandidate
 
-    var scoreForCandidate =
-      likesPercentageForCandidate + likesForCandidate - dislikesForCandidate;
+    var scoreForCandidate = likesPercentageForCandidate;
 
-    // console.log("score: ", scoreForCandidate);
-    if (isNaN(scoreForCandidate) || scoreForCandidate == "Infinity") {
+    if (likesForCandidatePassed+dislikesForCandidatePassed+superlikesForCandidatePassed == 0) {
       return -1000000000000;
     } else {
       return parseInt(scoreForCandidate);
@@ -205,16 +205,13 @@ export default function Results() {
     scoreThird,
     scoreFourth,
     scoreFifth,
-    scoreSix,
     scoreEight,
     scoreNine,
     scoreTen,
     scoreEleven,
     scoreTwelve,
     scoreThirteen,
-    scoreFourteen,
-    scoreFiveteen,
-    scoreSixteen
+    scoreFiveteen
   ) => {
     var finalScoreForCandidates = [
       {
@@ -244,12 +241,6 @@ export default function Results() {
       {
         id: 5,
         score: scoreFifth,
-        pair: [],
-        position: null,
-      },
-      {
-        id: 6,
-        score: scoreSix,
         pair: [],
         position: null,
       },
@@ -290,20 +281,8 @@ export default function Results() {
         position: null,
       },
       {
-        id: 14,
-        score: scoreFourteen,
-        pair: [],
-        position: null,
-      },
-      {
         id: 15,
         score: scoreFiveteen,
-        pair: [],
-        position: null,
-      },
-      {
-        id: 16,
-        score: scoreSixteen,
         pair: [],
         position: null,
       },
@@ -323,16 +302,13 @@ export default function Results() {
       getScoreFor(3),
       getScoreFor(4),
       getScoreFor(5),
-      getScoreFor(6),
       getScoreFor(8),
       getScoreFor(9),
       getScoreFor(10),
       getScoreFor(11),
       getScoreFor(12),
       getScoreFor(13),
-      getScoreFor(14),
       getScoreFor(15),
-      getScoreFor(16),
     ]).then((response) => {
       // console.log("Réponse du tableau : ", response);
       if (
@@ -347,10 +323,7 @@ export default function Results() {
         isNaN(response[8]) == false &&
         isNaN(response[9]) == false &&
         isNaN(response[10]) == false &&
-        isNaN(response[11]) == false &&
-        isNaN(response[12]) == false &&
-        isNaN(response[13]) == false &&
-        isNaN(response[14]) == false
+        isNaN(response[11]) == false
       ) {
         const finalTableSorted = createFinalTable(
           response[0],
@@ -364,10 +337,7 @@ export default function Results() {
           response[8],
           response[9],
           response[10],
-          response[11],
-          response[12],
-          response[13],
-          response[14]
+          response[11]
         );
 
         const pairsTable = setPositions(findPairs(finalTableSorted));
@@ -515,6 +485,7 @@ export default function Results() {
                 first: podiumFirstDetails[0],
                 second: podiumSecondDetails[0],
                 third: podiumThirdDetails[0],
+                numberOfSwipes: positionsPassedNumber,
               })
             }
             style={{

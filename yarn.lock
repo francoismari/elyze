@@ -4814,6 +4814,15 @@ expo-permissions@~13.0.3:
   dependencies:
     expo-modules-core "~0.4.4"
 
+expo-sensors@~11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/expo-sensors/-/expo-sensors-11.0.3.tgz#df40d8d08531fbe543c547f12468074d51da3666"
+  integrity sha512-VTwEpB98l+pb8nML/wDFhQ18LqZ8bBDchX6HaSLdLrrtp7eYOZZ2blOa2pM8VPZa/plOPKW4iMJ3MkmZnO1f3A==
+  dependencies:
+    "@expo/config-plugins" "^4.0.2"
+    expo-modules-core "~0.4.4"
+    invariant "^2.2.4"
+
 expo-sharing@~10.0.3:
   version "10.0.3"
   resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-10.0.3.tgz#21124d40f761bbde746eeab05d58d2d1f16397f9"
@@ -7293,6 +7302,13 @@ react-native-popup-confirm-toast@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/react-native-popup-confirm-toast/-/react-native-popup-confirm-toast-2.0.5.tgz#602c162cd25e8bfee6afdc24eeb504754407b38f"
   integrity sha512-LH2gX7O3fwgRVIo2jZOvJm4QpiA2/mHSb+sK5r1zcKSWIkG6anwHzzm9AqFAdjopNJGF0fwOXC56eb/mjULIfA==
+
+react-native-progress@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-5.0.0.tgz#f5ac6ceaeee27f184c660b00f29419e82a9d0ab0"
+  integrity sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-reanimated@~2.2.0:
   version "2.2.3"

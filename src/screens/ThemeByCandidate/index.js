@@ -14,6 +14,14 @@ import PropositionListCard from "../../components/PropositionListCard";
 import { useNavigation } from "@react-navigation/core";
 import { API, graphqlOperation } from "aws-amplify";
 
+import firstPropositions from "../../../assets/data/propositions/firstPropositions";
+import propositionsList from "../../../assets/data/propositions/propositionsList";
+
+var firstPropositionsArray = JSON.parse(JSON.stringify(firstPropositions));
+var propositionsListArray = JSON.parse(JSON.stringify(propositionsList));
+
+var allPropositions = firstPropositionsArray.concat(propositionsListArray);
+
 export default function ThemeByCandidate({ route }) {
   const themeDetails = route.params;
 
@@ -27,37 +35,17 @@ export default function ThemeByCandidate({ route }) {
   useEffect(async () => {
     setThemeInfo(findThemeTitle(themeDetails.idTheme));
 
-    const getPropositionsForThemeCandidateQuery =
-      `query getPropositionsForThemeAndCandidate {
-      listPropositions(filter: {idCandidat: {eq: ` +
-      themeDetails.idCandidat +
-      `}, idTheme: {eq: ` +
-      themeDetails.idTheme +
-      `}}, limit: 1000) {
-        nextToken
-        items {
-          id
-          idCandidat
-          idTheme
-          source
-          title
-          toBeShownFirst
-          toShowOnSwipe
-          firstPropositions
-          createdAt
-          articleContent
-        }
-      }
-    }`;
+    var propositionsForThemeAndCandidate = allPropositions.filter(
+      (proposition) =>
+        proposition.idTheme == themeDetails.idTheme &&
+        proposition.idCandidat == themeDetails.idCandidat
+    );
 
-    await API.graphql(
-      graphqlOperation(getPropositionsForThemeCandidateQuery)
-    ).then((res) => {
-      // console.log(res);
-      var propsForThemeAndCandidate = res.data.listPropositions.items
-      propsForThemeAndCandidate.sort((a, b) => a.title.localeCompare(b.title));
-      setPropositionListForCandidate(propsForThemeAndCandidate);
-    });
+    propositionsForThemeAndCandidate.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+
+    setPropositionListForCandidate(propositionsForThemeAndCandidate);
   }, []);
 
   useEffect(() => {
@@ -65,7 +53,7 @@ export default function ThemeByCandidate({ route }) {
   }, [propositionListForCandidate]);
 
   if (loaded) {
-    console.log("Propositions : ", propositionListForCandidate);
+    // console.log("Propositions : ", propositionListForCandidate);
 
     return (
       <View style={styles.container}>
@@ -92,7 +80,9 @@ export default function ThemeByCandidate({ route }) {
           data={propositionListForCandidate}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item }) => {
+            console.log('Proposition du candidat : ', item)
+            return (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("PropositionDetails", {
@@ -100,20 +90,22 @@ export default function ThemeByCandidate({ route }) {
                   theme: item.idTheme,
                   articleContent: item.articleContent,
                   idCandidat: item.idCandidat,
-                  showCandidateInfo: true,
                   source: item.source,
+                  id: item.id,
+                  showCandidateInfo: true,
                 })
               }
             >
-              <PropositionListCard propositionID={item.id} />
+              <PropositionListCard proposition={item} />
             </TouchableOpacity>
-          )}
+            // <Text>{item.title}</Text>
+          )}}
         />
       </View>
     );
   } else {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size={"large"} />
       </View>
     );

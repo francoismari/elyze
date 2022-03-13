@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   menuItemContainer: {
-    width: "48%",
+    width: "31%",
     height: 40,
     borderRadius: 6,
     justifyContent: 'center',
