@@ -5,6 +5,4 @@ Note :
 <br>
 Version actuelle : 1.3
 <br>
-<br>
-Version
 © François Mari, 2022
